@@ -1,9 +1,14 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.stations;
 
+import android.util.Log;
+
 import com.clakestudio.pc.airpollutionmonitoringapp.data.AirPollutionDataSourceInterface;
+import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.StationDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.utils.BasePresenter;
 import com.clakestudio.pc.airpollutionmonitoringapp.utils.BaseSchedulerProvider;
 import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModel;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -27,11 +32,12 @@ public class StationsListPresenter implements StationsListContract.Presenter {
         this.airPollutionDataSourceInterface = airPollutionDataSourceInterface;
         this.compositeDisposable = new CompositeDisposable();
         this.baseSchedulerProvider = baseSchedulerProvider;
+        view.setPresenter(this);
     }
 
     @Override
     public void start() {
-
+        loadStationList();
     }
 
     @Override
@@ -41,6 +47,8 @@ public class StationsListPresenter implements StationsListContract.Presenter {
 
     @Override
     public void loadStationList() {
+
+        Log.e("elo", "here I am 0");
         compositeDisposable.add(
                 airPollutionDataSourceInterface.getStations().observeOn(baseSchedulerProvider.getUIScheduler())
                 .startWith(ListViewModel.loading()
@@ -60,12 +68,16 @@ public class StationsListPresenter implements StationsListContract.Presenter {
                         if (uiListViewModel.isHasError()) {
                             //view.showErrorMessage(uiListViewModel.getErrorMessage())
                             view.showStartSensorsListActivity();
+                            Log.e("elo", "here I am error");
                         }
                         else if (uiListViewModel.isLoading()) {
                             //view.showLoadingIndicator();
+                            Log.e("elo", "here I am loding");
                         }
                         else {
-                            //view.setUpAdapterAndView(uiListViewModel.getStationsList();
+                            Log.e("elo", "here I am");
+                            Log.e("list", uiListViewModel.getStationDataModels().toString());
+                            view.showStationList((ArrayList<StationDataModel>) uiListViewModel.getStationDataModels());
                         }
                     }
 
@@ -76,7 +88,6 @@ public class StationsListPresenter implements StationsListContract.Presenter {
 
                     @Override
                     public void onComplete() {
-
                     }
                 })
         );

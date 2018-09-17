@@ -47,4 +47,8 @@ public class StationDataModel {
         }
     }
 
+    @Override
+    public String toString() {
+        return stationName + " ->> " + city.getName();
+    }
 }
