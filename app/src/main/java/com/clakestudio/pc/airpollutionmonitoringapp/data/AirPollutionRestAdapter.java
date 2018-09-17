@@ -1,5 +1,10 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.data;
 
+import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
+import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.StationDataModel;
+
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
