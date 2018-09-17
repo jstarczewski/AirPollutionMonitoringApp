@@ -22,7 +22,6 @@ public class StationsListPresenter implements StationsListContract.Presenter {
     private CompositeDisposable compositeDisposable;
     private BaseSchedulerProvider baseSchedulerProvider;
 
-    @Inject
     StationsListPresenter(StationsListContract.View view, AirPollutionDataSourceInterface airPollutionDataSourceInterface, BaseSchedulerProvider baseSchedulerProvider) {
         this.view = view;
         this.airPollutionDataSourceInterface = airPollutionDataSourceInterface;

@@ -25,7 +25,6 @@ public class AirPollutionDataSourceImplementation implements AirPollutionDataSou
 
     private AirPollutionRestAdapter airPollutionRestAdapter;
 
-    @Inject
     public AirPollutionDataSourceImplementation(AirPollutionRestAdapter airPollutionRestAdapter) {
         this.airPollutionRestAdapter = airPollutionRestAdapter;
     }
