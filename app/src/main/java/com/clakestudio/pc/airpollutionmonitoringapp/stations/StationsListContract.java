@@ -21,7 +21,7 @@ public class StationsListContract {
 
         void loadStationList();
 
-        void startSensorsListActivty();
+        void startSensorsListActivity();
 
     }
 

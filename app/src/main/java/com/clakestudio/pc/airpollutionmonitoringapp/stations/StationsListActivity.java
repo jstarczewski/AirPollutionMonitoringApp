@@ -17,7 +17,6 @@ public class StationsListActivity extends BaseActivity {
             stationsListFragment = StationsListFragment.newInstance();
             addFragmentToActivity(getSupportFragmentManager(), stationsListFragment, R.id.contentFrame);
         }
-        Sta
 
     }
 }
