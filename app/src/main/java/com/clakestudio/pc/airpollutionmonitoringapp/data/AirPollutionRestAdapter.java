@@ -1,6 +1,9 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.data;
 
+import javax.inject.Inject;
+
 import io.reactivex.Flowable;
+import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -9,6 +12,8 @@ import retrofit2.http.Path;
  */
 
 public class AirPollutionRestAdapter {
+
+    private final AirPollutionService airPollution;
 
     public interface AirPollutionService {
 
@@ -31,4 +36,16 @@ public class AirPollutionRestAdapter {
 
     }
 
+    @Inject
+    public AirPollutionRestAdapter(Retrofit retrofit) {
+        this.airPollution=retrofit.create(AirPollutionService.class);
+    }
+
+    public Flowable<List<StationDataModel>> getStations() {
+        return airPollution.getStations();
+    }
+
+    public Flowable<List<SensorDataModel>> getSensors(final String stationId) {
+        return airPollution.getSensors(stationId);
+    }
 }
