@@ -36,7 +36,7 @@ ext {
     retrofitVersion = '2.2.0'
     moshiVersion = '1.4.0'
     jacksonVersion = '2.9.0.pr2'
-    daggerVersion = '2.13'
+    daggerVersion = '2.16'
     glideVersion = '4.3.1'
     mockWebServerVersion = '3.9.0'
 

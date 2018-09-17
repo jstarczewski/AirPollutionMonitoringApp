@@ -1,5 +1,6 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.stations;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import com.clakestudio.pc.airpollutionmonitoringapp.R;
@@ -12,12 +13,27 @@ import com.clakestudio.pc.airpollutionmonitoringapp.utils.SchedulerProvider;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
+import dagger.Lazy;
+import dagger.android.AndroidInjector;
+import dagger.android.HasActivityInjector;
+import dagger.android.support.DaggerAppCompatActivity;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
-public class StationsListActivity extends BaseActivity {
+import static com.clakestudio.pc.airpollutionmonitoringapp.utils.BaseActivity.addFragmentToActivity;
+
+public class StationsListActivity extends DaggerAppCompatActivity {
+
+    @Inject
+    StationsListPresenter stationsListPresenter;
+
+    @Inject
+    Lazy<StationsListFragment> stationsListFragmentLazy;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +42,8 @@ public class StationsListActivity extends BaseActivity {
 
         StationsListFragment stationsListFragment = (StationsListFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
         if (stationsListFragment == null) {
-            stationsListFragment = StationsListFragment.newInstance();
-            addFragmentToActivity(getSupportFragmentManager(), stationsListFragment, R.id.contentFrame);
+            stationsListFragment = stationsListFragmentLazy.get();
+            BaseActivity.addFragmentToActivity(getSupportFragmentManager(), stationsListFragment, R.id.contentFrame);
         }
 
         /**
@@ -36,7 +52,7 @@ public class StationsListActivity extends BaseActivity {
          *
          * */
 
-
+/*
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new ErrorInterceptor())
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -56,9 +72,10 @@ public class StationsListActivity extends BaseActivity {
         AirPollutionDataSourceImplementation airPollutionDataSourceImplementation = new AirPollutionDataSourceImplementation(airPollutionRestAdapter);
 
         SchedulerProvider schedulerProvider = new SchedulerProvider();
-
-        StationsListPresenter stationsListPresenter = new StationsListPresenter(stationsListFragment, airPollutionDataSourceImplementation, schedulerProvider);
+*/
+ //       StationsListPresenter stationsListPresenter = new StationsListPresenter(stationsListFragment, airPollutionDataSourceImplementation, schedulerProvider);
 
 
     }
+
 }

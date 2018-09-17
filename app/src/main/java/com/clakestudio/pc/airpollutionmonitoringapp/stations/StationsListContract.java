@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class StationsListContract {
 
-    interface View extends BaseView<Presenter> {
+    public interface View extends BaseView<Presenter> {
 
         void showStationList(ArrayList<StationDataModel> stationDataModels);
 
@@ -20,7 +20,7 @@ public class StationsListContract {
 
     }
 
-    interface Presenter extends BasePresenter {
+    public interface Presenter extends BasePresenter<View> {
 
         void loadStationList();
 

@@ -41,6 +41,7 @@ public class AirPollutionRestAdapter {
 
     }
 
+    @Inject
     public AirPollutionRestAdapter(Retrofit retrofit) {
         this.airPollution=retrofit.create(AirPollutionService.class);
     }

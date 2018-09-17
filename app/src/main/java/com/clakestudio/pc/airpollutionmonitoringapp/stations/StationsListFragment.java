@@ -12,13 +12,17 @@ import android.widget.TextView;
 
 import com.clakestudio.pc.airpollutionmonitoringapp.R;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.StationDataModel;
+import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.android.support.DaggerFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,15 +32,19 @@ import butterknife.ButterKnife;
  * Use the {@link StationsListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class StationsListFragment extends Fragment implements StationsListContract.View {
+
+@ActivityScoped
+public class StationsListFragment extends DaggerFragment implements StationsListContract.View {
 
     @BindView(R.id.tvData)
     TextView tvData;
 
-    private StationsListContract.Presenter presenter;
+    @Inject
+    StationsListContract.Presenter presenter;
 
     private OnFragmentInteractionListener mListener;
 
+    @Inject
     public StationsListFragment() {
         // Required empty public constructor
     }
@@ -78,21 +86,32 @@ public class StationsListFragment extends Fragment implements StationsListContra
         super.onDetach();
         mListener = null;
     }
-
+/*
     @Override
     public void setPresenter(StationsListContract.Presenter presenter) {
         this.presenter = presenter;
     }
-
+*/
     @Override
     public void stop() {
 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        presenter.takeView(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.dropView();
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.start();
     }
 
     @Override
