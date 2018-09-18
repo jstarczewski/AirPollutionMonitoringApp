@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -52,7 +53,8 @@ public class AirPollutionDataSourceImplementation implements AirPollutionDataSou
 
                         return Flowable.just(ListViewModel.success(stationDataModels));
                     }
-                }).subscribeOn(Schedulers.io());
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
 
     }
 }
