@@ -30,21 +30,31 @@ public class StationDataModel {
 
     static class City {
 
-        private final String id;
         private final String name;
 
-        public City(String id, String name) {
-            this.id = id;
-            this.name = name;
-        }
 
-        public String getId() {
-            return id;
+        private final String id;
+
+        public City(String id, String name) {
+            this.name = name;
+            this.id = id;
         }
 
         public String getName() {
             return name;
         }
+
+        public String getId() {
+            return id;
+        }
+    }
+
+    public String getCityId() {
+        return city.getId();
+    }
+
+    public String getCityName() {
+        return city.getName();
     }
 
     @Override

@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,8 +39,11 @@ import dagger.android.support.DaggerFragment;
 @ActivityScoped
 public class StationsListFragment extends DaggerFragment implements StationsListContract.View {
 
-    @BindView(R.id.tvData)
-    TextView tvData;
+    List<StationDataModel> stationDataModelList;
+    StationsAdapter stationsAdapter;
+
+    @BindView(R.id.rvStations)
+    RecyclerView rvStations;
 
     @Inject
     StationsListContract.Presenter presenter;
@@ -64,7 +70,12 @@ public class StationsListFragment extends DaggerFragment implements StationsList
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_stations_list, container, false);
 
+        stationDataModelList = new ArrayList<>();
+
         ButterKnife.bind(this, view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        rvStations.setLayoutManager(linearLayoutManager);
+
 
         return view;
     }
@@ -112,11 +123,14 @@ public class StationsListFragment extends DaggerFragment implements StationsList
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        stationsAdapter = new StationsAdapter((ArrayList<StationDataModel>) stationDataModelList);
+        rvStations.setAdapter(stationsAdapter);
     }
 
     @Override
     public void showStationList(ArrayList<StationDataModel> stationDataModels) {
-        tvData.setText(stationDataModels.toString());
+        stationsAdapter.updateData(stationDataModels);
     }
 
     @Override
@@ -137,5 +151,58 @@ public class StationsListFragment extends DaggerFragment implements StationsList
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.StationsViewHolder> {
+
+        ArrayList<StationDataModel> stationDataModels;
+
+        StationsAdapter(ArrayList<StationDataModel> stationDataModels) {
+            this.stationDataModels = stationDataModels;
+        }
+
+        class StationsViewHolder extends RecyclerView.ViewHolder {
+
+            TextView tvStationName;
+            TextView tvStationCityName;
+
+
+            public StationsViewHolder(View itemView) {
+                super(itemView);
+
+                tvStationName = (TextView)itemView.findViewById(R.id.tvStationName);
+                tvStationCityName = (TextView)itemView.findViewById(R.id.tvStationCityName);
+
+            }
+        }
+
+        void setStationDataModels(ArrayList<StationDataModel> stationDataModels) {
+            this.stationDataModels = stationDataModels;
+        }
+
+        void updateData(ArrayList<StationDataModel> stationDataModels) {
+            setStationDataModels(stationDataModels);
+            this.notifyDataSetChanged();
+        }
+
+        @Override
+        public StationsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.station, parent, false);
+            StationsViewHolder stationsViewHolder = new StationsViewHolder(view);
+            return stationsViewHolder;
+        }
+
+        @Override
+        public void onBindViewHolder(StationsViewHolder holder, int position) {
+            holder.tvStationCityName.setText(stationDataModels.get(position).getCityName());
+            holder.tvStationName.setText(stationDataModels.get(position).getStationName());
+        }
+
+        @Override
+        public int getItemCount() {
+           return stationDataModels.size();
+        }
+
     }
 }
