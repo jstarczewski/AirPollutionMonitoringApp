@@ -3,7 +3,9 @@ package com.clakestudio.pc.airpollutionmonitoringapp.sensors;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class SesnsorsListActivity extends AppCompatActivity {
+import com.clakestudio.pc.airpollutionmonitoringapp.R;
+
+public class SensorsListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
