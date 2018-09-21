@@ -9,6 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.clakestudio.pc.airpollutionmonitoringapp.R;
+import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
+import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +24,9 @@ import com.clakestudio.pc.airpollutionmonitoringapp.R;
  * Use the {@link SensorsListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SensorsListFragment extends Fragment {
+
+@ActivityScoped
+public class SensorsListFragment extends Fragment implements SensorsListContract.View {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,6 +38,10 @@ public class SensorsListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    @Inject
+    SensorsListContract.Presenter presenter;
+
+    @Inject
     public SensorsListFragment() {
         // Required empty public constructor
     }
@@ -90,6 +102,21 @@ public class SensorsListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
+    @Override
+    public void showSensorsList(ArrayList<SensorDataModel> sensorDataModels) {
+
+    }
+
+    @Override
+    public void showStartSensorsDataActivity(String sensorId) {
+
     }
 
     /**

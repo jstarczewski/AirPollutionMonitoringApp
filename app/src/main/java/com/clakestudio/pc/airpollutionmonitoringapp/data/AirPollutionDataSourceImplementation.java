@@ -72,7 +72,7 @@ public class AirPollutionDataSourceImplementation implements AirPollutionDataSou
                                     throw new EmptyDatasetException();
 
                                 for (SensorDataModel sensorDataModelResponse : sensorDataModelsResponse) {
-                                    sensorDataModels.add(new SensorDataModel(sensorDataModelResponse.getId(), sensorDataModelResponse.getStationId(), sensorDataModelResponse.getParam()));
+                                    sensorDataModels.add(new SensorDataModel(sensorDataModelResponse.getId(), sensorDataModelResponse.getStationId(), sensorDataModelResponse.getParams()));
                                 }
 
                                 return Flowable.just(ListViewModelSensors.success(sensorDataModels));

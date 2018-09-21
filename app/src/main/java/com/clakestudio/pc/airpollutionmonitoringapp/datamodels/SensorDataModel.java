@@ -1,5 +1,7 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.datamodels;
 
+import java.util.List;
+
 /**
  * Created by Jan on 9/17/2018.
  */
@@ -8,12 +10,12 @@ public class SensorDataModel {
 
     private final String id;
     private final String stationId;
-    private final Param param;
+    private final List<Param> params;
 
-    public SensorDataModel(String id, String stationId, Param param) {
+    public SensorDataModel(String id, String stationId, List<Param> params) {
         this.id = id;
         this.stationId = stationId;
-        this.param = param;
+        this.params = params;
     }
 
     public String getId() {
@@ -24,8 +26,8 @@ public class SensorDataModel {
         return stationId;
     }
 
-    public Param getParam() {
-        return param;
+    public List<Param> getParams() {
+        return params;
     }
 
     static class Param {
