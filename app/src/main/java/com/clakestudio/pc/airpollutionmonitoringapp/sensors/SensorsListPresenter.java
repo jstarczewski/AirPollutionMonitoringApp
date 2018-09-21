@@ -1,5 +1,7 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.sensors;
 
+import android.util.Log;
+
 import com.clakestudio.pc.airpollutionmonitoringapp.data.AirPollutionDataSourceInterface;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
@@ -62,13 +64,16 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
         if (!getStationId().equals("-1"))
             compositeDisposable.add(
                     dataSourceInterface.getSensors(this.stationId).observeOn(baseSchedulerProvider.getUIScheduler())
-                            .startWith(ListViewModelSensors.loading())
-                            .onErrorReturn(new Function<Throwable, ListViewModelSensors>() {
-                                @Override
-                                public ListViewModelSensors apply(Throwable throwable) throws Exception {
-                                    return ListViewModelSensors.error(throwable.getMessage());
-                                }
-                            })
+                            .startWith(ListViewModelSensors.loading()
+                            )
+                            .onErrorReturn(
+                                    new Function<Throwable, ListViewModelSensors>() {
+                                        @Override
+                                        public ListViewModelSensors apply(Throwable throwable) throws Exception {
+                                            return ListViewModelSensors.error(throwable.getMessage());
+                                        }
+                                    }
+                            )
                             .subscribeWith(new DisposableSubscriber<ListViewModelSensors>() {
                                 @Override
                                 public void onNext(ListViewModelSensors uiListViewModelSensors) {
@@ -77,6 +82,7 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
                                     } else if (uiListViewModelSensors.isLoading()) {
                                         // handle that
                                     } else {
+
                                         view.showSensorsList((ArrayList<SensorDataModel>) uiListViewModelSensors.getSensorDataModels());
                                     }
                                 }

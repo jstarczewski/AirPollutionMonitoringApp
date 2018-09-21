@@ -116,6 +116,7 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
     public void onStart() {
         super.onStart();
 
+        presenter.takeView(this);
         if (getActivity().getIntent().getExtras() != null) {
             String stationId = getActivity().getIntent().getExtras().getString("stationId", "-1");
             presenter.setStationId(stationId);

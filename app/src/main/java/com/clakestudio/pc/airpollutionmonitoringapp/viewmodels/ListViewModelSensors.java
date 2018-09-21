@@ -36,7 +36,7 @@ public class ListViewModelSensors {
     }
 
     public List<SensorDataModel> getSensorDataModels() {
-        return sensorDataModels;
+        return this.sensorDataModels;
     }
 
     public static ListViewModelSensors loading() {

@@ -34,7 +34,6 @@ public class StationsListPresenter implements StationsListContract.Presenter {
         this.airPollutionDataSourceInterface = airPollutionDataSourceInterface;
         this.compositeDisposable = new CompositeDisposable();
         this.baseSchedulerProvider = baseSchedulerProvider;
-        // this.view.setPresenter(this);
     }
 
     @Override
@@ -57,10 +56,8 @@ public class StationsListPresenter implements StationsListContract.Presenter {
     public void stop() {
 
     }
-
     @Override
     public void loadStationList() {
-
         Log.e("elo", "here I am 0");
         compositeDisposable.add(
                 airPollutionDataSourceInterface.getStations().observeOn(baseSchedulerProvider.getUIScheduler())

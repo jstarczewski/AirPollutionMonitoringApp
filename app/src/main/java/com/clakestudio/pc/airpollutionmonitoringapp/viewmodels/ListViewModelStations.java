@@ -15,7 +15,6 @@ public final class ListViewModelStations {
     final boolean isLoading;
     final String errorMessage;
     private List<StationDataModel> stationDataModels;
-    private List<SensorDataModel> sensorDataModels;
 
 
     public ListViewModelStations(boolean hasError, boolean isLoading, String errorMessage, List<StationDataModel> stationDataModels) {

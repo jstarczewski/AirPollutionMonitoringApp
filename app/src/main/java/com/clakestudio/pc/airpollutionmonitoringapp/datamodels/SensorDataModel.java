@@ -62,7 +62,7 @@ public class SensorDataModel {
     }
     @Override
     public String toString() {
-        return this.id  + " " + this.params.toString();
+        return this.id + " " + " " + this.params.toString();
     }
 
 

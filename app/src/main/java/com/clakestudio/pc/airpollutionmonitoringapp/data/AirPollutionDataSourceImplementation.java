@@ -76,7 +76,7 @@ public class AirPollutionDataSourceImplementation implements AirPollutionDataSou
 
                                 for (SensorDataModel sensorDataModelResponse : sensorDataModelsResponse) {
                         //            Log.e("param", " -> " + sensorDataModelResponse.toString());
-
+                                 //   System.out.println(sensorDataModelResponse.toString());
                                     sensorDataModels.add(new SensorDataModel(sensorDataModelResponse.getId(), sensorDataModelResponse.getStationId(), sensorDataModelResponse.getParams()));
                                 }
 
