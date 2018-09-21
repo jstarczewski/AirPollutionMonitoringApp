@@ -10,6 +10,7 @@ import com.clakestudio.pc.airpollutionmonitoringapp.data.URLManager;
 import com.clakestudio.pc.airpollutionmonitoringapp.error.ErrorInterceptor;
 import com.clakestudio.pc.airpollutionmonitoringapp.utils.BaseSchedulerProvider;
 import com.clakestudio.pc.airpollutionmonitoringapp.utils.SchedulerProvider;
+import com.squareup.moshi.Moshi;
 
 import java.util.concurrent.TimeUnit;
 
@@ -46,6 +47,7 @@ public class ExternalModule {
     AirPollutionRestAdapter provideRestAdapter(Retrofit retrofit){
         return new AirPollutionRestAdapter(retrofit);
     }
+
 
     @Provides
     @Singleton

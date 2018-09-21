@@ -225,7 +225,7 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
         @Override
         public void onBindViewHolder(SensorsAdapter.SensorsViewHolder holder, int position) {
             holder.tvSensorId.setText(sensors.get(position).getId());
-            holder.tvSensorParams.setText(sensors.get(position).getStationId());
+            holder.tvSensorParams.setText((sensors.get(position)).getParamName().trim());
         }
 
         @Override
