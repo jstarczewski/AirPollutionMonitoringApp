@@ -3,7 +3,9 @@ package com.clakestudio.pc.airpollutionmonitoringapp.sensors;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import dagger.android.support.DaggerFragment;
 
 /**
@@ -42,6 +45,12 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private SensorsAdapter sensorsAdapter;
+    private List<SensorDataModel> sensorDataModels;
+
+    @BindView(R.id.rvSensors)
+    RecyclerView rvSensors;
 
     @Inject
     SensorsListContract.Presenter presenter;
@@ -82,7 +91,23 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sensors_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_sensors_list, container, false);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        rvSensors.setLayoutManager(linearLayoutManager);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        sensorDataModels = new ArrayList<>();
+
+        sensorsAdapter = new SensorsAdapter(sensorDataModels);
+        rvSensors.setAdapter(sensorsAdapter);
+        presenter.loadSensorsList();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -116,7 +141,7 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
 
     @Override
     public void showSensorsList(ArrayList<SensorDataModel> sensorDataModels) {
-
+        sensorsAdapter.updateDate(sensorDataModels);
     }
 
     @Override
@@ -159,7 +184,19 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
                 tvSensorParams = (TextView) itemView.findViewById(R.id.tvParams);
 
             }
+
         }
+
+        private void setSensors(List<SensorDataModel> sensors) {
+            this.sensors = sensors;
+        }
+
+
+        public void updateDate(List<SensorDataModel> sensorDataModels) {
+            setSensors(sensorDataModels);
+            notifyDataSetChanged();
+        }
+
 
         @Override
         public SensorsAdapter.SensorsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

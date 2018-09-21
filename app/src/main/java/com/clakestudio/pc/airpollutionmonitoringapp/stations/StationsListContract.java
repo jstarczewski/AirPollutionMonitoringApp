@@ -16,7 +16,7 @@ public interface StationsListContract {
 
         void showStationList(ArrayList<StationDataModel> stationDataModels);
 
-        void showStartSensorsListActivity();
+        void showStartSensorsListActivity(String stationId);
 
     }
 
@@ -24,7 +24,7 @@ public interface StationsListContract {
 
         void loadStationList();
 
-        void startSensorsListActivity();
+        void startSensorsListActivity(String stationId);
 
     }
 

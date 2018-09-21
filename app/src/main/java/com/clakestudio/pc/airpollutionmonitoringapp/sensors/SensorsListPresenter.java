@@ -93,8 +93,8 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
 
 
     @Override
-    public void startSensorsDataActivity() {
-
+    public void startSensorsDataActivity(String sensorId) {
+        view.showStartSensorsDataActivity(sensorId);
     }
 
     public String getStationId() {

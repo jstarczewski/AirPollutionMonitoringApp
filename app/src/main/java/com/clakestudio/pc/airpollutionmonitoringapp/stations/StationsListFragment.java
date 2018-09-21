@@ -97,6 +97,13 @@ public class StationsListFragment extends DaggerFragment implements StationsList
         super.onDetach();
         mListener = null;
     }
+
+    /**
+     * The difference with MVP with Dagger 2 and without Dagger 2 according to Google
+     * Architecture samples is that we setPresenter in Fragment when we are not using Dagger
+     * and we set View prom presenter when we are using Dagger
+     */
+
 /*
     @Override
     public void setPresenter(StationsListContract.Presenter presenter) {
@@ -125,7 +132,16 @@ public class StationsListFragment extends DaggerFragment implements StationsList
         super.onViewCreated(view, savedInstanceState);
 
         stationsAdapter = new StationsAdapter((ArrayList<StationDataModel>) stationDataModelList);
+
+        stationsAdapter.setStationClicker(new StationClicker() {
+            @Override
+            public void onStationClicked(String stationId) {
+                presenter.startSensorsListActivity(stationId);
+            }
+        });
+
         rvStations.setAdapter(stationsAdapter);
+
     }
 
     @Override
@@ -134,9 +150,10 @@ public class StationsListFragment extends DaggerFragment implements StationsList
     }
 
     @Override
-    public void showStartSensorsListActivity() {
+    public void showStartSensorsListActivity(String stationId) {
 
     }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -157,11 +174,14 @@ public class StationsListFragment extends DaggerFragment implements StationsList
 
         ArrayList<StationDataModel> stationDataModels;
 
+
+        StationClicker stationClicker;
+
         StationsAdapter(ArrayList<StationDataModel> stationDataModels) {
             this.stationDataModels = stationDataModels;
         }
 
-        class StationsViewHolder extends RecyclerView.ViewHolder {
+        class StationsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             TextView tvStationName;
             TextView tvStationCityName;
@@ -170,9 +190,16 @@ public class StationsListFragment extends DaggerFragment implements StationsList
             public StationsViewHolder(View itemView) {
                 super(itemView);
 
-                tvStationName = (TextView)itemView.findViewById(R.id.tvStationName);
-                tvStationCityName = (TextView)itemView.findViewById(R.id.tvStationCityName);
+                tvStationName = (TextView) itemView.findViewById(R.id.tvStationName);
+                tvStationCityName = (TextView) itemView.findViewById(R.id.tvStationCityName);
 
+                tvStationName.setOnClickListener(this);
+
+            }
+
+            @Override
+            public void onClick(View view) {
+                stationClicker.onStationClicked(stationDataModels.get(getAdapterPosition()).getId());
             }
         }
 
@@ -183,6 +210,10 @@ public class StationsListFragment extends DaggerFragment implements StationsList
         void updateData(ArrayList<StationDataModel> stationDataModels) {
             setStationDataModels(stationDataModels);
             this.notifyDataSetChanged();
+        }
+
+        public void setStationClicker(StationClicker stationClicker) {
+            this.stationClicker = stationClicker;
         }
 
         @Override
@@ -201,8 +232,14 @@ public class StationsListFragment extends DaggerFragment implements StationsList
 
         @Override
         public int getItemCount() {
-           return stationDataModels.size();
+            return stationDataModels.size();
         }
+
+    }
+
+    interface StationClicker {
+
+        void onStationClicked(String id);
 
     }
 }

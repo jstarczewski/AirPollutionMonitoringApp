@@ -16,7 +16,7 @@ public interface SensorsListContract {
 
         void loadSensorsList();
 
-        void startSensorsDataActivity();
+        void startSensorsDataActivity(String sensorId);
 
     }
 

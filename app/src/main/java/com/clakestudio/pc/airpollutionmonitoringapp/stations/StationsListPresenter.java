@@ -105,7 +105,8 @@ public class StationsListPresenter implements StationsListContract.Presenter {
     }
 
     @Override
-    public void startSensorsListActivity() {
+    public void startSensorsListActivity(String stationId) {
 
     }
+
 }
