@@ -23,6 +23,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import dagger.android.support.DaggerFragment;
 
 /**
@@ -94,6 +95,7 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_sensors_list, container, false);
 
+        ButterKnife.bind(this, view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rvSensors.setLayoutManager(linearLayoutManager);
         return view;
@@ -117,6 +119,7 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
         if (getActivity().getIntent().getExtras() != null) {
             String stationId = getActivity().getIntent().getExtras().getString("stationId", "-1");
             presenter.setStationId(stationId);
+            presenter.loadSensorsList();
         }
         else {
             // temporary solution

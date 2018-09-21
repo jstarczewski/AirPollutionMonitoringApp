@@ -60,6 +60,10 @@ public class SensorDataModel {
             return idParam;
         }
     }
+    @Override
+    public String toString() {
+        return this.id  + " " + this.params.toString();
+    }
 
 
 }

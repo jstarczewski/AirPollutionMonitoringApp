@@ -1,5 +1,8 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.data;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.StationDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.error.EmptyDatasetException;
@@ -72,6 +75,8 @@ public class AirPollutionDataSourceImplementation implements AirPollutionDataSou
                                     throw new EmptyDatasetException();
 
                                 for (SensorDataModel sensorDataModelResponse : sensorDataModelsResponse) {
+                        //            Log.e("param", " -> " + sensorDataModelResponse.toString());
+
                                     sensorDataModels.add(new SensorDataModel(sensorDataModelResponse.getId(), sensorDataModelResponse.getStationId(), sensorDataModelResponse.getParams()));
                                 }
 

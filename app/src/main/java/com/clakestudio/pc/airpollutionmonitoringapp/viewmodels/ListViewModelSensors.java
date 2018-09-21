@@ -13,15 +13,14 @@ public class ListViewModelSensors {
     final boolean hasError;
     final boolean isLoading;
     final String errorMessage;
-    private List<SensorDataModel> stationDataModels;
     private List<SensorDataModel> sensorDataModels;
 
 
-    public ListViewModelSensors(boolean hasError, boolean isLoading, String errorMessage, List<SensorDataModel> stationDataModels) {
+    public ListViewModelSensors(boolean hasError, boolean isLoading, String errorMessage, List<SensorDataModel> sensorDataModels) {
         this.hasError = hasError;
         this.isLoading = isLoading;
         this.errorMessage = errorMessage;
-        this.stationDataModels = stationDataModels;
+        this.sensorDataModels = sensorDataModels;
     }
 
     public boolean isHasError() {
@@ -37,15 +36,15 @@ public class ListViewModelSensors {
     }
 
     public List<SensorDataModel> getSensorDataModels() {
-        return stationDataModels;
+        return sensorDataModels;
     }
 
     public static ListViewModelSensors loading() {
         return new ListViewModelSensors(false, true, null, null);
     }
 
-    public static ListViewModelSensors success(List<SensorDataModel> stationDataModels) {
-        return new ListViewModelSensors(false, false, null, stationDataModels);
+    public static ListViewModelSensors success(List<SensorDataModel> sensorDataModels) {
+        return new ListViewModelSensors(false, false, null, sensorDataModels);
     }
 
     public static ListViewModelSensors error(String errorMessage) {
