@@ -5,9 +5,8 @@ import android.util.Log;
 import com.clakestudio.pc.airpollutionmonitoringapp.data.AirPollutionDataSourceInterface;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.StationDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
-import com.clakestudio.pc.airpollutionmonitoringapp.utils.BasePresenter;
 import com.clakestudio.pc.airpollutionmonitoringapp.utils.BaseSchedulerProvider;
-import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModel;
+import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModelStations;
 
 import java.util.ArrayList;
 
@@ -65,31 +64,31 @@ public class StationsListPresenter implements StationsListContract.Presenter {
         Log.e("elo", "here I am 0");
         compositeDisposable.add(
                 airPollutionDataSourceInterface.getStations().observeOn(baseSchedulerProvider.getUIScheduler())
-                        .startWith(ListViewModel.loading()
+                        .startWith(ListViewModelStations.loading()
                         )
                         .onErrorReturn(
-                                new Function<Throwable, ListViewModel>() {
+                                new Function<Throwable, ListViewModelStations>() {
                                     @Override
-                                    public ListViewModel apply(Throwable throwable) throws Exception {
-                                        return ListViewModel.error(throwable.getMessage());
+                                    public ListViewModelStations apply(Throwable throwable) throws Exception {
+                                        return ListViewModelStations.error(throwable.getMessage());
                                     }
                                 }
                         )
-                        .subscribeWith(new DisposableSubscriber<ListViewModel>() {
+                        .subscribeWith(new DisposableSubscriber<ListViewModelStations>() {
 
                             @Override
-                            public void onNext(ListViewModel uiListViewModel) {
-                                if (uiListViewModel.isHasError()) {
-                                    //view.showErrorMessage(uiListViewModel.getErrorMessage())
+                            public void onNext(ListViewModelStations uiListViewModelStations) {
+                                if (uiListViewModelStations.isHasError()) {
+                                    //view.showErrorMessage(uiListViewModelStations.getErrorMessage())
                                     view.showStartSensorsListActivity();
                                     Log.e("elo", "here I am error");
-                                } else if (uiListViewModel.isLoading()) {
+                                } else if (uiListViewModelStations.isLoading()) {
                                     //view.showLoadingIndicator();
                                     Log.e("elo", "here I am loding");
                                 } else {
                                     Log.e("elo", "here I am");
-                                    Log.e("list", uiListViewModel.getStationDataModels().toString());
-                                    view.showStationList((ArrayList<StationDataModel>) uiListViewModel.getStationDataModels());
+                                    Log.e("list", uiListViewModelStations.getStationDataModels().toString());
+                                    view.showStationList((ArrayList<StationDataModel>) uiListViewModelStations.getStationDataModels());
                                 }
                             }
 

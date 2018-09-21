@@ -1,19 +1,19 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.data;
 
+import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.StationDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.error.EmptyDatasetException;
-import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModel;
+import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModelSensors;
+import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModelStations;
 
 import org.reactivestreams.Publisher;
 
 import java.util.ArrayList;
-import java.util.EmptyStackException;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -33,28 +33,50 @@ public class AirPollutionDataSourceImplementation implements AirPollutionDataSou
 
 
     @Override
-    public Flowable<ListViewModel> getStations() {
+    public Flowable<ListViewModelStations> getStations() {
 
         return
                 airPollutionRestAdapter.getStations()
-                .flatMap(new Function<List<StationDataModel>,
-                        Publisher<ListViewModel>>() {
-                    @Override
-                    public Publisher<ListViewModel>
-                    apply(List<StationDataModel> stationDataModelsResponse) throws Exception {
+                        .flatMap(new Function<List<StationDataModel>,
+                                Publisher<ListViewModelStations>>() {
+                            @Override
+                            public Publisher<ListViewModelStations>
+                            apply(List<StationDataModel> stationDataModelsResponse) throws Exception {
 
-                        List<StationDataModel> stationDataModels = new ArrayList<>();
-                        if (stationDataModelsResponse.size()==0)
-                            throw new EmptyDatasetException();
+                                List<StationDataModel> stationDataModels = new ArrayList<>();
+                                if (stationDataModelsResponse.size() == 0)
+                                    throw new EmptyDatasetException();
 
-                        for (StationDataModel stationDataModelResponse : stationDataModelsResponse) {
-                            stationDataModels.add(new StationDataModel(stationDataModelResponse.getId(), stationDataModelResponse.getStationName(), stationDataModelResponse.getCity()));
-                        }
+                                for (StationDataModel stationDataModelResponse : stationDataModelsResponse) {
+                                    stationDataModels.add(new StationDataModel(stationDataModelResponse.getId(), stationDataModelResponse.getStationName(), stationDataModelResponse.getCity()));
+                                }
 
-                        return Flowable.just(ListViewModel.success(stationDataModels));
-                    }
-                }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                                return Flowable.just(ListViewModelStations.success(stationDataModels));
+                            }
+                        }).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
 
+    }
+
+    @Override
+    public Flowable<ListViewModelSensors> getSensors(String stationId) {
+        return
+                airPollutionRestAdapter.getSensors(stationId)
+                        .flatMap(new Function<List<SensorDataModel>, Publisher<ListViewModelSensors>>() {
+                            @Override
+                            public Publisher<ListViewModelSensors>
+                            apply(List<SensorDataModel> sensorDataModelsResponse) throws Exception {
+
+                                List<SensorDataModel> sensorDataModels = new ArrayList<>();
+                                if (sensorDataModelsResponse.size() == 0)
+                                    throw new EmptyDatasetException();
+
+                                for (SensorDataModel sensorDataModelResponse : sensorDataModelsResponse) {
+                                    sensorDataModels.add(new SensorDataModel(sensorDataModelResponse.getId(), sensorDataModelResponse.getStationId(), sensorDataModelResponse.getParam()));
+                                }
+
+                                return Flowable.just(ListViewModelSensors.success(sensorDataModels));
+                            }
+                        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 }

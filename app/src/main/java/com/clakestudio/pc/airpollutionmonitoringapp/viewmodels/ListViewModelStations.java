@@ -1,5 +1,6 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.viewmodels;
 
+import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.StationDataModel;
 
 import java.util.List;
@@ -8,14 +9,16 @@ import java.util.List;
  * Created by Jan on 9/17/2018.
  */
 
-public final class ListViewModel {
+public final class ListViewModelStations {
 
     final boolean hasError;
     final boolean isLoading;
     final String errorMessage;
     private List<StationDataModel> stationDataModels;
+    private List<SensorDataModel> sensorDataModels;
 
-    public ListViewModel(boolean hasError, boolean isLoading, String errorMessage, List<StationDataModel> stationDataModels) {
+
+    public ListViewModelStations(boolean hasError, boolean isLoading, String errorMessage, List<StationDataModel> stationDataModels) {
         this.hasError = hasError;
         this.isLoading = isLoading;
         this.errorMessage = errorMessage;
@@ -38,15 +41,15 @@ public final class ListViewModel {
         return stationDataModels;
     }
 
-    public static ListViewModel loading() {
-        return new ListViewModel(false, true, null, null);
+    public static ListViewModelStations loading() {
+        return new ListViewModelStations(false, true, null, null);
     }
 
-    public static ListViewModel success(List<StationDataModel> stationDataModels) {
-        return new ListViewModel(false, false, null, stationDataModels);
+    public static ListViewModelStations success(List<StationDataModel> stationDataModels) {
+        return new ListViewModelStations(false, false, null, stationDataModels);
     }
 
-    public static ListViewModel error(String errorMessage) {
-        return new ListViewModel(true, false, errorMessage, null);
+    public static ListViewModelStations error(String errorMessage) {
+        return new ListViewModelStations(true, false, errorMessage, null);
     }
 }
