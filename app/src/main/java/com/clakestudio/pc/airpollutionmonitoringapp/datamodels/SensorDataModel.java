@@ -10,12 +10,10 @@ public class SensorDataModel {
 
     private final String id;
     private final String stationId;
-    private final List<Param> params;
 
-    public SensorDataModel(String id, String stationId, List<Param> params) {
+    public SensorDataModel(String id, String stationId) {
         this.id = id;
         this.stationId = stationId;
-        this.params = params;
     }
 
     public String getId() {
@@ -26,9 +24,7 @@ public class SensorDataModel {
         return stationId;
     }
 
-    public List<Param> getParams() {
-        return params;
-    }
+
 
     static class Param {
 
@@ -62,7 +58,7 @@ public class SensorDataModel {
     }
     @Override
     public String toString() {
-        return this.id + " " + " " + this.params.toString();
+        return this.id;
     }
 
 

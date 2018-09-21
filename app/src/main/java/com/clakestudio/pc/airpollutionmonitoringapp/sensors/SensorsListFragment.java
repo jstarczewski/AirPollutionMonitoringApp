@@ -109,6 +109,15 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
 
         sensorsAdapter = new SensorsAdapter(sensorDataModels);
         rvSensors.setAdapter(sensorsAdapter);
+        presenter.takeView(this);
+        if (getActivity().getIntent().getExtras() != null) {
+            String stationId = getActivity().getIntent().getExtras().getString("stationId", "-1");
+            presenter.setStationId(stationId);
+            presenter.loadSensorsList();
+        } else {
+            // temporary solution
+            Toast.makeText(getActivity(), "Not working id", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -116,16 +125,6 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
     public void onStart() {
         super.onStart();
 
-        presenter.takeView(this);
-        if (getActivity().getIntent().getExtras() != null) {
-            String stationId = getActivity().getIntent().getExtras().getString("stationId", "-1");
-            presenter.setStationId(stationId);
-            presenter.loadSensorsList();
-        }
-        else {
-            // temporary solution
-            Toast.makeText(getActivity(), "Not working id", Toast.LENGTH_SHORT).show();
-        }
 
     }
 
@@ -139,7 +138,7 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-   }
+    }
 
     @Override
     public void onDetach() {
@@ -226,7 +225,7 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
         @Override
         public void onBindViewHolder(SensorsAdapter.SensorsViewHolder holder, int position) {
             holder.tvSensorId.setText(sensors.get(position).getId());
-            holder.tvSensorParams.setText(sensors.get(position).getParams().toString());
+            holder.tvSensorParams.setText(sensors.get(position).getStationId());
         }
 
         @Override
