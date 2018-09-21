@@ -10,9 +10,9 @@ import java.util.ArrayList;
  * Created by Jan on 9/17/2018.
  */
 
-public class StationsListContract {
+public interface StationsListContract {
 
-    public interface View extends BaseView<Presenter> {
+    interface View extends BaseView<Presenter> {
 
         void showStationList(ArrayList<StationDataModel> stationDataModels);
 
@@ -20,7 +20,7 @@ public class StationsListContract {
 
     }
 
-    public interface Presenter extends BasePresenter<View> {
+    interface Presenter extends BasePresenter<View> {
 
         void loadStationList();
 
