@@ -23,14 +23,14 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
     private AirPollutionDataSourceInterface dataSourceInterface;
     private BaseSchedulerProvider baseSchedulerProvider;
     private CompositeDisposable compositeDisposable;
-    private String stationId;
+
+    private String stationId = "-1";
 
 
-    SensorsListPresenter(AirPollutionDataSourceInterface dataSourceInterface, BaseSchedulerProvider baseSchedulerProvider, String stationId) {
+    SensorsListPresenter(AirPollutionDataSourceInterface dataSourceInterface, BaseSchedulerProvider baseSchedulerProvider) {
         this.dataSourceInterface = dataSourceInterface;
         this.baseSchedulerProvider = baseSchedulerProvider;
         this.compositeDisposable = new CompositeDisposable();
-        this.stationId = stationId;
     }
 
 
@@ -56,38 +56,39 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
 
     @Override
     public void loadSensorsList() {
-        compositeDisposable.add(
-                dataSourceInterface.getSensors(this.stationId).observeOn(baseSchedulerProvider.getUIScheduler())
-                .startWith(ListViewModelSensors.loading())
-                .onErrorReturn(new Function<Throwable, ListViewModelSensors>() {
-                    @Override
-                    public ListViewModelSensors apply(Throwable throwable) throws Exception {
-                        return ListViewModelSensors.error(throwable.getMessage());
-                    }
-                })
-                .subscribeWith(new DisposableSubscriber<ListViewModelSensors>() {
-                    @Override
-                    public void onNext(ListViewModelSensors uiListViewModelSensors) {
-                        if (uiListViewModelSensors.isHasError()) {
-                            // handle this
-                        } else if (uiListViewModelSensors.isLoading()) {
-                            // handle that
-                        } else {
-                            view.showSensorsList((ArrayList<SensorDataModel>) uiListViewModelSensors.getSensorDataModels());
-                        }
-                    }
+        if (!getStationId().equals("-1"))
+            compositeDisposable.add(
+                    dataSourceInterface.getSensors(this.stationId).observeOn(baseSchedulerProvider.getUIScheduler())
+                            .startWith(ListViewModelSensors.loading())
+                            .onErrorReturn(new Function<Throwable, ListViewModelSensors>() {
+                                @Override
+                                public ListViewModelSensors apply(Throwable throwable) throws Exception {
+                                    return ListViewModelSensors.error(throwable.getMessage());
+                                }
+                            })
+                            .subscribeWith(new DisposableSubscriber<ListViewModelSensors>() {
+                                @Override
+                                public void onNext(ListViewModelSensors uiListViewModelSensors) {
+                                    if (uiListViewModelSensors.isHasError()) {
+                                        // handle this
+                                    } else if (uiListViewModelSensors.isLoading()) {
+                                        // handle that
+                                    } else {
+                                        view.showSensorsList((ArrayList<SensorDataModel>) uiListViewModelSensors.getSensorDataModels());
+                                    }
+                                }
 
-                    @Override
-                    public void onError(Throwable t) {
+                                @Override
+                                public void onError(Throwable t) {
 
-                    }
+                                }
 
-                    @Override
-                    public void onComplete() {
+                                @Override
+                                public void onComplete() {
 
-                    }
-                })
-        );
+                                }
+                            })
+            );
     }
 
 
@@ -95,4 +96,13 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
     public void startSensorsDataActivity() {
 
     }
+
+    public String getStationId() {
+        return stationId;
+    }
+
+    public void setStationId(String stationId) {
+        this.stationId = stationId;
+    }
+
 }

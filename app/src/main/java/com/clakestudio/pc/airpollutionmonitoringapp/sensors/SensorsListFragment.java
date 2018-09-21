@@ -4,17 +4,22 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.clakestudio.pc.airpollutionmonitoringapp.R;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +31,7 @@ import javax.inject.Inject;
  */
 
 @ActivityScoped
-public class SensorsListFragment extends Fragment implements SensorsListContract.View {
+public class SensorsListFragment extends DaggerFragment implements SensorsListContract.View {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -77,7 +82,7 @@ public class SensorsListFragment extends Fragment implements SensorsListContract
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sensors, container, false);
+        return inflater.inflate(R.layout.fragment_sensors_list, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -133,4 +138,52 @@ public class SensorsListFragment extends Fragment implements SensorsListContract
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    class SensorsAdapter extends RecyclerView.Adapter<SensorsAdapter.SensorsViewHolder> {
+
+        List<SensorDataModel> sensors;
+
+        public SensorsAdapter(List<SensorDataModel> sensors) {
+            this.sensors = sensors;
+        }
+
+        public class SensorsViewHolder extends RecyclerView.ViewHolder {
+
+            private TextView tvSensorId;
+            private TextView tvSensorParams;
+
+            public SensorsViewHolder(View itemView) {
+                super(itemView);
+
+                tvSensorId = (TextView) itemView.findViewById(R.id.tvSensorName);
+                tvSensorParams = (TextView) itemView.findViewById(R.id.tvParams);
+
+            }
+        }
+
+        @Override
+        public SensorsAdapter.SensorsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sensor, parent, false);
+
+            SensorsViewHolder sensorsViewHolder = new SensorsViewHolder(view);
+
+            return sensorsViewHolder;
+
+
+        }
+
+        @Override
+        public void onBindViewHolder(SensorsAdapter.SensorsViewHolder holder, int position) {
+            holder.tvSensorId.setText(sensors.get(position).getId());
+            holder.tvSensorParams.setText(sensors.get(position).getParams().toString());
+        }
+
+        @Override
+        public int getItemCount() {
+            return sensors.size();
+        }
+
+    }
+
 }
