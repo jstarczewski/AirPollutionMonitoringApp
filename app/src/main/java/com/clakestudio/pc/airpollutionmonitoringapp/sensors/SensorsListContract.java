@@ -18,6 +18,8 @@ public interface SensorsListContract {
 
         void startSensorsDataActivity(String sensorId);
 
+        void setStationId(String stationId);
+
     }
 
     interface View extends BaseView<Presenter> {
@@ -25,6 +27,7 @@ public interface SensorsListContract {
         void showSensorsList(ArrayList<SensorDataModel> sensorDataModels);
 
         void showStartSensorsDataActivity(String sensorId);
+
 
     }
 

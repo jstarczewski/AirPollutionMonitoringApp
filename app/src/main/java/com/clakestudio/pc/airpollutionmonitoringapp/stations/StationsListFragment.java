@@ -1,6 +1,7 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.stations;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.clakestudio.pc.airpollutionmonitoringapp.R;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.StationDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
+import com.clakestudio.pc.airpollutionmonitoringapp.sensors.SensorsListActivity;
 
 import org.w3c.dom.Text;
 
@@ -151,7 +153,9 @@ public class StationsListFragment extends DaggerFragment implements StationsList
 
     @Override
     public void showStartSensorsListActivity(String stationId) {
-
+        Intent intent = new Intent(getActivity(), SensorsListActivity.class);
+        intent.putExtra("stationId", stationId);
+        startActivity(intent);
     }
 
 

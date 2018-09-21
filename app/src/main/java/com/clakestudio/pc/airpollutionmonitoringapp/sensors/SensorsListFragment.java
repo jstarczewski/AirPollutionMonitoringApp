@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.clakestudio.pc.airpollutionmonitoringapp.R;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
@@ -106,7 +107,21 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
 
         sensorsAdapter = new SensorsAdapter(sensorDataModels);
         rvSensors.setAdapter(sensorsAdapter);
-        presenter.loadSensorsList();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (getActivity().getIntent().getExtras() != null) {
+            String stationId = getActivity().getIntent().getExtras().getString("stationId", "-1");
+            presenter.setStationId(stationId);
+        }
+        else {
+            // temporary solution
+            Toast.makeText(getActivity(), "Not working id", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

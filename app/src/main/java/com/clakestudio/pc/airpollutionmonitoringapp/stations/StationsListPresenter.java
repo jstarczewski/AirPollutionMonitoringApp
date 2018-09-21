@@ -80,7 +80,6 @@ public class StationsListPresenter implements StationsListContract.Presenter {
                             public void onNext(ListViewModelStations uiListViewModelStations) {
                                 if (uiListViewModelStations.isHasError()) {
                                     //view.showErrorMessage(uiListViewModelStations.getErrorMessage())
-                                    view.showStartSensorsListActivity();
                                     Log.e("elo", "here I am error");
                                 } else if (uiListViewModelStations.isLoading()) {
                                     //view.showLoadingIndicator();
@@ -106,7 +105,7 @@ public class StationsListPresenter implements StationsListContract.Presenter {
 
     @Override
     public void startSensorsListActivity(String stationId) {
-
+        view.showStartSensorsListActivity(stationId);
     }
 
 }
