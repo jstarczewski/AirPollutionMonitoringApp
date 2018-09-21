@@ -27,7 +27,6 @@ public interface ApplicationComponent extends AndroidInjector<AirPollutionApplic
     interface Builder {
         @BindsInstance
         ApplicationComponent.Builder application(Application application);
-
         ApplicationComponent build();
 
     }

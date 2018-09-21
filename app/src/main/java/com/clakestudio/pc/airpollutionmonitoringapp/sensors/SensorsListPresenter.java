@@ -8,6 +8,8 @@ import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModelSens
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Function;
 import io.reactivex.subscribers.DisposableSubscriber;
@@ -27,6 +29,7 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
     private String stationId = "-1";
 
 
+    @Inject
     SensorsListPresenter(AirPollutionDataSourceInterface dataSourceInterface, BaseSchedulerProvider baseSchedulerProvider) {
         this.dataSourceInterface = dataSourceInterface;
         this.baseSchedulerProvider = baseSchedulerProvider;

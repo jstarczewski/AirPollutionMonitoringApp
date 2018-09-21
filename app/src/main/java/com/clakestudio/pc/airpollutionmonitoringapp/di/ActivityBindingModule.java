@@ -1,5 +1,7 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.di;
 
+import com.clakestudio.pc.airpollutionmonitoringapp.sensors.SensorsListActivity;
+import com.clakestudio.pc.airpollutionmonitoringapp.sensors.SensorsListModule;
 import com.clakestudio.pc.airpollutionmonitoringapp.stations.StationsListActivity;
 import com.clakestudio.pc.airpollutionmonitoringapp.stations.StationsListModule;
 
@@ -18,4 +20,7 @@ public abstract class ActivityBindingModule {
     @ContributesAndroidInjector(modules = StationsListModule.class)
     abstract StationsListActivity stationsListActivity();
 
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = SensorsListModule.class)
+    abstract SensorsListActivity sensorsListActivity();
 }
