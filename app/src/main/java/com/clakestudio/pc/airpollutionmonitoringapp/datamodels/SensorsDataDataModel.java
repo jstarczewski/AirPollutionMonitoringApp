@@ -9,21 +9,20 @@ import java.util.List;
 public class SensorsDataDataModel {
 
     final String key;
-//    final List<Value> values;
+    final List<Value> values;
 
-    public SensorsDataDataModel(String key){//, List<Value> values) {
-
+    public SensorsDataDataModel(String key, List<Value> values) {
         this.key = key;
- //       this.values = values;
+        this.values = values;
     }
 
     public String getKey() {
         return key;
     }
 
-    //public List<Value> getValues() {
-      //  return values;
-   // }
+    public List<Value> getValues() {
+        return values;
+    }
 
     public static class Value {
 
@@ -42,6 +41,12 @@ public class SensorsDataDataModel {
         public String getValue() {
             return value;
         }
+
+        @Override
+        public String toString() {
+            return "By time "+getDate() + " the pollution was " + getValue() + "\n";
+        }
+
     }
 
 

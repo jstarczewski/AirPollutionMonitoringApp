@@ -33,7 +33,7 @@ public class AirPollutionRestAdapter {
         );
 
         @GET(URLManager.DATA_FROM_SENSOR)
-        Flowable<List<SensorsDataDataModel>> getSensorsData(
+        Flowable<SensorsDataDataModel> getSensorsData(
                 @Path("sensorId")
                         String sensorId
         );
@@ -62,7 +62,7 @@ public class AirPollutionRestAdapter {
         return airPollution.getSensors(stationId);
     }
 
-    public Flowable<List<SensorsDataDataModel>> getSensorsData(final String sensorId) {
+    public Flowable<SensorsDataDataModel> getSensorsData(final String sensorId) {
         return airPollution.getSensorsData(sensorId);
     }
 }

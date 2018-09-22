@@ -111,7 +111,6 @@ public class SensorsDataFragment extends dagger.android.support.DaggerFragment i
 
     @Override
     public void showSensorsData(ArrayList<SensorsDataDataModel> sensorsDataDataModels) {
-        sensorsDataDataModels.add(new SensorsDataDataModel("elo0"));
         sensorsDataAdapter.updateData(sensorsDataDataModels);
     }
 
@@ -185,7 +184,7 @@ public class SensorsDataFragment extends dagger.android.support.DaggerFragment i
         @Override
         public void onBindViewHolder(SensorsDataAdapter.ViewHolder holder, int position) {
             holder.tvKey.setText(sensorsDataDataModelList.get(position).getKey());
-       //     holder.tvValues.setText(sensorsDataDataModelList.get(position).getValues().toString());
+            holder.tvValues.setText(sensorsDataDataModelList.get(position).getValues().toString());
         }
 
         @Override

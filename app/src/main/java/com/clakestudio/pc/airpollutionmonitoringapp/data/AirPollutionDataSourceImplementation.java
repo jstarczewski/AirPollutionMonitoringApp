@@ -92,22 +92,16 @@ public class AirPollutionDataSourceImplementation implements AirPollutionDataSou
         Log.e("error", "not geting data");
         return
                 airPollutionRestAdapter.getSensorsData(sensorId)
-                        .flatMap(new Function<List<SensorsDataDataModel>, Publisher<ListViewModelSensorsData>>() {
-                            @Override
-                            public Publisher<ListViewModelSensorsData>
-                            apply(List<SensorsDataDataModel> sensorsDataDataModelsResponse) throws Exception {
+                .flatMap(new Function<SensorsDataDataModel, Publisher<ListViewModelSensorsData>>() {
+                    @Override
+                    public Publisher<ListViewModelSensorsData>
+                    apply(SensorsDataDataModel sensorsDataDataModelResponse) throws Exception {
+                        SensorsDataDataModel sensorsDataDataModel = new SensorsDataDataModel(sensorsDataDataModelResponse.getKey(), sensorsDataDataModelResponse.getValues());
+                        List<SensorsDataDataModel> sensorDataModels = new ArrayList<>();
+                        sensorDataModels.add(sensorsDataDataModel);
 
-                                Log.e("error", "not getting into fucntuon");
-                                List<SensorsDataDataModel> sensorsDataDataModels = new ArrayList<>();
-                                if (sensorsDataDataModels.size() == 0)
-                                    throw new EmptyDatasetException();
-
-                                Log.e("el", sensorsDataDataModelsResponse.toString());
-                                for (SensorsDataDataModel sensorsDataDataModelResponse : sensorsDataDataModelsResponse) {
-                                    sensorsDataDataModels.add(new SensorsDataDataModel(sensorsDataDataModelResponse.getKey()));
-                                }
-                                return Flowable.just(ListViewModelSensorsData.success(sensorsDataDataModels));
-                            }
-                        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+                        return Flowable.just(ListViewModelSensorsData.success(sensorDataModels));
+                    }
+                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 }
