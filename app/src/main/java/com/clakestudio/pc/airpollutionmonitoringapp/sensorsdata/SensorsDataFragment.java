@@ -11,8 +11,12 @@ import android.view.ViewGroup;
 import com.clakestudio.pc.airpollutionmonitoringapp.R;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorsDataDataModel;
+import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import dagger.android.DaggerFragment;
 
@@ -24,18 +28,20 @@ import dagger.android.DaggerFragment;
  * Use the {@link SensorsDataFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+@ActivityScoped
 public class SensorsDataFragment extends DaggerFragment implements SensorsDataContract.View {
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    private List<SensorsDataDataModel> sensorsDataList;
 
+
+
+    @Inject
+    SensorsDataContract.Presenter presenter;
+
+
+    @Inject
     public SensorsDataFragment() {
         // Required empty public constructor
     }
@@ -52,8 +58,6 @@ public class SensorsDataFragment extends DaggerFragment implements SensorsDataCo
     public static SensorsDataFragment newInstance(String param1, String param2) {
         SensorsDataFragment fragment = new SensorsDataFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,10 +65,6 @@ public class SensorsDataFragment extends DaggerFragment implements SensorsDataCo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -76,31 +76,22 @@ public class SensorsDataFragment extends DaggerFragment implements SensorsDataCo
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
     public void stop() {
-        
+
     }
 
     @Override
