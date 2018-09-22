@@ -30,6 +30,5 @@ public class SensorsDataActivity extends DaggerAppCompatActivity {
             BaseActivity.addFragmentToActivity(getSupportFragmentManager(), sensorsDataFragment, R.id.contentFrame);
         }
 
-
     }
 }
