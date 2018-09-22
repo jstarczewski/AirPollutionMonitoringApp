@@ -1,6 +1,7 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.data;
 
 import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModelSensors;
+import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModelSensorsData;
 import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModelStations;
 
 import io.reactivex.Flowable;
@@ -14,5 +15,7 @@ public interface AirPollutionDataSourceInterface {
     Flowable<ListViewModelStations> getStations();
 
     Flowable<ListViewModelSensors> getSensors(String stationId);
+
+    Flowable<ListViewModelSensorsData> getSensorsData(String sensorId);
 
 }
