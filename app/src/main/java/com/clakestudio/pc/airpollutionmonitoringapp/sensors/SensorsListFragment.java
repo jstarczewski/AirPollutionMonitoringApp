@@ -1,6 +1,7 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.sensors;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.clakestudio.pc.airpollutionmonitoringapp.R;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
+import com.clakestudio.pc.airpollutionmonitoringapp.sensorsdata.SensorsDataActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +38,7 @@ import dagger.android.support.DaggerFragment;
  */
 
 @ActivityScoped
-public class SensorsListFragment extends DaggerFragment implements SensorsListContract.View {
+public class SensorsListFragment extends DaggerFragment implements SensorsListContract.View, SensorClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -158,7 +160,14 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
 
     @Override
     public void showStartSensorsDataActivity(String sensorId) {
+        Intent intent = new Intent(getActivity(), SensorsDataActivity.class);
+        intent.putExtra("sensorId", sensorId);
+        startActivity(intent);
+    }
 
+    @Override
+    public void onSensorClicked(String sensorId) {
+        presenter.startSensorsDataActivity(sensorId);
     }
 
     /**
@@ -180,11 +189,14 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
 
         List<SensorDataModel> sensors;
 
+
+        SensorClickListener sensorClickListener;
+
         public SensorsAdapter(List<SensorDataModel> sensors) {
             this.sensors = sensors;
         }
 
-        public class SensorsViewHolder extends RecyclerView.ViewHolder {
+        public class SensorsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             private TextView tvSensorId;
             private TextView tvSensorParams;
@@ -195,8 +207,14 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
                 tvSensorId = (TextView) itemView.findViewById(R.id.tvSensorName);
                 tvSensorParams = (TextView) itemView.findViewById(R.id.tvParams);
 
+                tvSensorId.setOnClickListener(this);
+
             }
 
+            @Override
+            public void onClick(View view) {
+                sensorClickListener.onSensorClicked(sensors.get(getAdapterPosition()).getId());
+            }
         }
 
         private void setSensors(List<SensorDataModel> sensors) {
@@ -209,6 +227,9 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
             notifyDataSetChanged();
         }
 
+        public void setSensorClickListener(SensorClickListener sensorClickListener) {
+            this.sensorClickListener = sensorClickListener;
+        }
 
         @Override
         public SensorsAdapter.SensorsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -236,3 +257,10 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
     }
 
 }
+
+interface SensorClickListener {
+
+    void onSensorClicked(String sensorId);
+
+}
+
