@@ -9,6 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.clakestudio.pc.airpollutionmonitoringapp.R;
+import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
+import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorsDataDataModel;
+
+import java.util.ArrayList;
+
+import dagger.android.DaggerFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +24,7 @@ import com.clakestudio.pc.airpollutionmonitoringapp.R;
  * Use the {@link SensorsDataFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SensorsDataFragment extends Fragment {
+public class SensorsDataFragment extends DaggerFragment implements SensorsDataContract.View {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -90,6 +96,16 @@ public class SensorsDataFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void stop() {
+        
+    }
+
+    @Override
+    public void showSensorsData(ArrayList<SensorsDataDataModel> sensorsDataDataModels) {
+
     }
 
     /**
