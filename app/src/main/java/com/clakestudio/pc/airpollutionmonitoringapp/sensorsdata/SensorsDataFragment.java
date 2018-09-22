@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
 import com.clakestudio.pc.airpollutionmonitoringapp.sensors.SensorsListFragment;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -109,6 +111,7 @@ public class SensorsDataFragment extends dagger.android.support.DaggerFragment i
 
     @Override
     public void showSensorsData(ArrayList<SensorsDataDataModel> sensorsDataDataModels) {
+        sensorsDataDataModels.add(new SensorsDataDataModel("elo0"));
         sensorsDataAdapter.updateData(sensorsDataDataModels);
     }
 
@@ -116,14 +119,16 @@ public class SensorsDataFragment extends dagger.android.support.DaggerFragment i
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        sensorsDataAdapter = new SensorsDataAdapter(sensorsDataList);
+        sensorsDataList = new ArrayList<>();
 
+        sensorsDataAdapter = new SensorsDataAdapter(sensorsDataList);
         rvSensorsData.setAdapter(sensorsDataAdapter);
 
         presenter.takeView(this);
 
         if (getActivity().getIntent().getExtras() != null) {
             String sensorId = getActivity().getIntent().getExtras().getString("sensorId", "-1");
+            Log.e("id", sensorId);
             presenter.loadSensorsData(sensorId);
         }
     }
@@ -180,7 +185,7 @@ public class SensorsDataFragment extends dagger.android.support.DaggerFragment i
         @Override
         public void onBindViewHolder(SensorsDataAdapter.ViewHolder holder, int position) {
             holder.tvKey.setText(sensorsDataDataModelList.get(position).getKey());
-            holder.tvValues.setText(sensorsDataDataModelList.get(position).getValues().toString());
+       //     holder.tvValues.setText(sensorsDataDataModelList.get(position).getValues().toString());
         }
 
         @Override

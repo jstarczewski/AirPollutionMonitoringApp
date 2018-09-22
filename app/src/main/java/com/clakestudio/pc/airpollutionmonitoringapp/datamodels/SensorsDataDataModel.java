@@ -9,22 +9,23 @@ import java.util.List;
 public class SensorsDataDataModel {
 
     final String key;
-    final List<Value> values;
+//    final List<Value> values;
 
-    public SensorsDataDataModel(String key, List<Value> values) {
+    public SensorsDataDataModel(String key){//, List<Value> values) {
+
         this.key = key;
-        this.values = values;
+ //       this.values = values;
     }
 
     public String getKey() {
         return key;
     }
 
-    public List<Value> getValues() {
-        return values;
-    }
+    //public List<Value> getValues() {
+      //  return values;
+   // }
 
-    class Value {
+    public static class Value {
 
         final String date;
         final String value;

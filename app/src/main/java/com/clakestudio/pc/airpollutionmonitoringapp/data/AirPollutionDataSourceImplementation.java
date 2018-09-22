@@ -89,6 +89,7 @@ public class AirPollutionDataSourceImplementation implements AirPollutionDataSou
 
     @Override
     public Flowable<ListViewModelSensorsData> getSensorsData(String sensorId) {
+        Log.e("error", "not geting data");
         return
                 airPollutionRestAdapter.getSensorsData(sensorId)
                         .flatMap(new Function<List<SensorsDataDataModel>, Publisher<ListViewModelSensorsData>>() {
@@ -96,12 +97,14 @@ public class AirPollutionDataSourceImplementation implements AirPollutionDataSou
                             public Publisher<ListViewModelSensorsData>
                             apply(List<SensorsDataDataModel> sensorsDataDataModelsResponse) throws Exception {
 
+                                Log.e("error", "not getting into fucntuon");
                                 List<SensorsDataDataModel> sensorsDataDataModels = new ArrayList<>();
                                 if (sensorsDataDataModels.size() == 0)
                                     throw new EmptyDatasetException();
 
+                                Log.e("el", sensorsDataDataModelsResponse.toString());
                                 for (SensorsDataDataModel sensorsDataDataModelResponse : sensorsDataDataModelsResponse) {
-                                    sensorsDataDataModels.add(new SensorsDataDataModel(sensorsDataDataModelResponse.getKey(), sensorsDataDataModelResponse.getValues()));
+                                    sensorsDataDataModels.add(new SensorsDataDataModel(sensorsDataDataModelResponse.getKey()));
                                 }
                                 return Flowable.just(ListViewModelSensorsData.success(sensorsDataDataModels));
                             }

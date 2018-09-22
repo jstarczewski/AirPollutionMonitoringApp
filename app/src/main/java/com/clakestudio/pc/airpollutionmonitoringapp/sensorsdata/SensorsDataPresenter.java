@@ -1,5 +1,7 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.sensorsdata;
 
+import android.util.Log;
+
 import com.clakestudio.pc.airpollutionmonitoringapp.data.AirPollutionDataSourceInterface;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorsDataDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
@@ -7,7 +9,6 @@ import com.clakestudio.pc.airpollutionmonitoringapp.utils.BaseSchedulerProvider;
 import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModelSensorsData;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -28,7 +29,7 @@ public class SensorsDataPresenter implements SensorsDataContract.Presenter {
     private BaseSchedulerProvider baseSchedulerProvider;
 
     @Inject
-    public SensorsDataPresenter(AirPollutionDataSourceInterface airPollutionDataSourceInterface, BaseSchedulerProvider baseSchedulerProvider) {
+    SensorsDataPresenter(AirPollutionDataSourceInterface airPollutionDataSourceInterface, BaseSchedulerProvider baseSchedulerProvider) {
         this.airPollutionDataSourceInterface = airPollutionDataSourceInterface;
         this.baseSchedulerProvider = baseSchedulerProvider;
         this.compositeDisposable = new CompositeDisposable();

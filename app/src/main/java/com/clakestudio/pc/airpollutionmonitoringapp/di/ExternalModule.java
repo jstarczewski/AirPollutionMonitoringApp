@@ -67,7 +67,8 @@ public class ExternalModule {
         return new Retrofit.Builder()
                 .client(client)
                 .baseUrl(URLManager.API_HOST)
-                .addConverterFactory(GsonConverterFactory.create())
+            //    .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
