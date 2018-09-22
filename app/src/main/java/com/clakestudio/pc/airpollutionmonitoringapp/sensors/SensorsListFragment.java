@@ -110,6 +110,7 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
         sensorDataModels = new ArrayList<>();
 
         sensorsAdapter = new SensorsAdapter(sensorDataModels);
+        sensorsAdapter.setSensorClickListener(this);
         rvSensors.setAdapter(sensorsAdapter);
         presenter.takeView(this);
         if (getActivity().getIntent().getExtras() != null) {

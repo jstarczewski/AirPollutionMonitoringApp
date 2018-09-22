@@ -10,7 +10,6 @@ import java.util.List;
 
 public class ListViewModelSensorsData {
 
-
     final boolean hasError;
     final boolean isLoading;
     final String errorMessage;

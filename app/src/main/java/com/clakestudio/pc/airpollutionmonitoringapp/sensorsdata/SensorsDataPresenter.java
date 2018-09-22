@@ -31,6 +31,7 @@ public class SensorsDataPresenter implements SensorsDataContract.Presenter {
     public SensorsDataPresenter(AirPollutionDataSourceInterface airPollutionDataSourceInterface, BaseSchedulerProvider baseSchedulerProvider) {
         this.airPollutionDataSourceInterface = airPollutionDataSourceInterface;
         this.baseSchedulerProvider = baseSchedulerProvider;
+        this.compositeDisposable = new CompositeDisposable();
     }
 
 
