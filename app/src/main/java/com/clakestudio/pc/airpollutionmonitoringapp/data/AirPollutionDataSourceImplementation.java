@@ -77,7 +77,6 @@ public class AirPollutionDataSourceImplementation implements AirPollutionDataSou
                                 if (sensorDataModelsResponse.size() == 0)
                                     throw new EmptyDatasetException();
 
-                                Log.e("param", " y8tu " + sensorDataModelsResponse.toString());
                                 for (SensorDataModel sensorDataModelResponse : sensorDataModelsResponse) {
                                     sensorDataModels.add(new SensorDataModel(sensorDataModelResponse.getId(), sensorDataModelResponse.getStationId(), sensorDataModelResponse.getParam()));
                                 }
@@ -89,19 +88,18 @@ public class AirPollutionDataSourceImplementation implements AirPollutionDataSou
 
     @Override
     public Flowable<ListViewModelSensorsData> getSensorsData(String sensorId) {
-        Log.e("error", "not geting data");
         return
                 airPollutionRestAdapter.getSensorsData(sensorId)
-                .flatMap(new Function<SensorsDataDataModel, Publisher<ListViewModelSensorsData>>() {
-                    @Override
-                    public Publisher<ListViewModelSensorsData>
-                    apply(SensorsDataDataModel sensorsDataDataModelResponse) throws Exception {
-                        SensorsDataDataModel sensorsDataDataModel = new SensorsDataDataModel(sensorsDataDataModelResponse.getKey(), sensorsDataDataModelResponse.getValues());
-                        List<SensorsDataDataModel> sensorDataModels = new ArrayList<>();
-                        sensorDataModels.add(sensorsDataDataModel);
+                        .flatMap(new Function<SensorsDataDataModel, Publisher<ListViewModelSensorsData>>() {
+                            @Override
+                            public Publisher<ListViewModelSensorsData>
+                            apply(SensorsDataDataModel sensorsDataDataModelResponse) throws Exception {
+                                SensorsDataDataModel sensorsDataDataModel = new SensorsDataDataModel(sensorsDataDataModelResponse.getKey(), sensorsDataDataModelResponse.getValues());
+                                List<SensorsDataDataModel> sensorDataModels = new ArrayList<>();
+                                sensorDataModels.add(sensorsDataDataModel);
 
-                        return Flowable.just(ListViewModelSensorsData.success(sensorDataModels));
-                    }
-                }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+                                return Flowable.just(ListViewModelSensorsData.success(sensorDataModels));
+                            }
+                        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 }
