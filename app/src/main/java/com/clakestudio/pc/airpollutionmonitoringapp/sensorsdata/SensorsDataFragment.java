@@ -18,8 +18,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.android.DaggerFragment;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -29,13 +27,9 @@ import dagger.android.DaggerFragment;
  * create an instance of this fragment.
  */
 @ActivityScoped
-public class SensorsDataFragment extends DaggerFragment implements SensorsDataContract.View {
+public class SensorsDataFragment extends dagger.android.support.DaggerFragment implements SensorsDataContract.View {
     // TODO: Rename parameter arguments, choose names that match
-
-
     private List<SensorsDataDataModel> sensorsDataList;
-
-
 
     @Inject
     SensorsDataContract.Presenter presenter;

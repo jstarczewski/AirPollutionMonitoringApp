@@ -1,9 +1,9 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.sensorsdata;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.clakestudio.pc.airpollutionmonitoringapp.R;
+import com.clakestudio.pc.airpollutionmonitoringapp.utils.BaseActivity;
 
 import javax.inject.Inject;
 
@@ -24,9 +24,10 @@ public class SensorsDataActivity extends DaggerAppCompatActivity {
         setContentView(R.layout.activity_sensors_data);
 
 
-        SensorsDataFragment sensorsDataFragment = (SensorsDataFragment)getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (sensorsDataFragment==null) {
+        SensorsDataFragment sensorsDataFragment = (SensorsDataFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (sensorsDataFragment == null) {
             sensorsDataFragment = sensorsDataFragmentLazy.get();
+            BaseActivity.addFragmentToActivity(getSupportFragmentManager(), sensorsDataFragment, R.id.contentFrame);
         }
 
 
