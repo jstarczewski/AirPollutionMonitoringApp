@@ -18,11 +18,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/tvParams"
+        app:layout_constraintBottom_toTopOf="@id/tvParamValues"
         tools:text="Warszawa" />
 
     <TextView
-        android:id="@+id/tvParams"
+        android:id="@+id/tvParamValues"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

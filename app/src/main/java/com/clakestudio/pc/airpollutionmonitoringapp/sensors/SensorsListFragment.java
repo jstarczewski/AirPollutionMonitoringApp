@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.clakestudio.pc.airpollutionmonitoringapp.R;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
+import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorsDataDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
 import com.clakestudio.pc.airpollutionmonitoringapp.sensorsdata.SensorsDataActivity;
 
@@ -156,7 +157,7 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
 
     @Override
     public void showSensorsList(ArrayList<SensorDataModel> sensorDataModels) {
-        sensorsAdapter.updateDate(sensorDataModels);
+        sensorsAdapter.updateData(sensorDataModels);
     }
 
     @Override
@@ -164,6 +165,11 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
         Intent intent = new Intent(getActivity(), SensorsDataActivity.class);
         intent.putExtra("sensorId", sensorId);
         startActivity(intent);
+    }
+
+    @Override
+    public void showSensorsData(SensorsDataDataModel sensorsDataDataModel) {
+        //correct implementation needed
     }
 
     @Override
@@ -190,6 +196,8 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
 
         List<SensorDataModel> sensors;
 
+        SensorsDataDataModel sensorsDataDataModel;
+
 
         SensorClickListener sensorClickListener;
 
@@ -200,13 +208,13 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
         public class SensorsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             private TextView tvSensorId;
-            private TextView tvSensorParams;
+            private TextView tvSensorValues;
 
             public SensorsViewHolder(View itemView) {
                 super(itemView);
 
                 tvSensorId = (TextView) itemView.findViewById(R.id.tvSensorName);
-                tvSensorParams = (TextView) itemView.findViewById(R.id.tvParams);
+                tvSensorValues = (TextView) itemView.findViewById(R.id.tvValues);
 
                 tvSensorId.setOnClickListener(this);
 
@@ -222,8 +230,16 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
             this.sensors = sensors;
         }
 
+        public void setSensorsDataDataModel(SensorsDataDataModel sensorsDataDataModel) {
+            this.sensorsDataDataModel = sensorsDataDataModel;
+        }
 
-        public void updateDate(List<SensorDataModel> sensorDataModels) {
+        public void updateData(SensorsDataDataModel sensorsDataDataModel) {
+            setSensorsDataDataModel(sensorsDataDataModel);
+            notifyDataSetChanged();
+        }
+
+        public void updateData(List<SensorDataModel> sensorDataModels) {
             setSensors(sensorDataModels);
             notifyDataSetChanged();
         }
@@ -246,8 +262,17 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
 
         @Override
         public void onBindViewHolder(SensorsAdapter.SensorsViewHolder holder, int position) {
-            holder.tvSensorId.setText(sensors.get(position).getId());
-            holder.tvSensorParams.setText((sensors.get(position)).getParamName().trim());
+            holder.tvSensorId.setText((sensors.get(position)).getParamName().trim());
+
+            /**
+             *
+             * Not gonna work cuz we need a List of values for a particular sensor where
+             * id.sensor = values.id etc
+             *
+             * */
+
+
+            holder.tvSensorValues.setText(sensorsDataDataModel.getValues().get(position).toString());
         }
 
         @Override

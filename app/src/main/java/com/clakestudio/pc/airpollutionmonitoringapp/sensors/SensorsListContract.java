@@ -1,6 +1,7 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.sensors;
 
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
+import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorsDataDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.utils.BasePresenter;
 import com.clakestudio.pc.airpollutionmonitoringapp.utils.BaseView;
 
@@ -20,6 +21,8 @@ public interface SensorsListContract {
 
         void setStationId(String stationId);
 
+        void loadSensorsData(String sensorId);
+
     }
 
     interface View extends BaseView<Presenter> {
@@ -28,6 +31,7 @@ public interface SensorsListContract {
 
         void showStartSensorsDataActivity(String sensorId);
 
+        void showSensorsData(SensorsDataDataModel sensorsDataDataModel);
 
     }
 

@@ -1,12 +1,10 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.sensorsdata;
 
-import android.util.Log;
-
 import com.clakestudio.pc.airpollutionmonitoringapp.data.AirPollutionDataSourceInterface;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorsDataDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
 import com.clakestudio.pc.airpollutionmonitoringapp.utils.BaseSchedulerProvider;
-import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModelSensorsData;
+import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ViewModelSensorsData;
 
 import java.util.ArrayList;
 
@@ -60,23 +58,23 @@ public class SensorsDataPresenter implements SensorsDataContract.Presenter {
     public void loadSensorsData(String sensorId) {
 
         compositeDisposable.add(airPollutionDataSourceInterface.getSensorsData(sensorId).observeOn(baseSchedulerProvider.getUIScheduler())
-                .startWith(ListViewModelSensorsData.loading())
+                .startWith(ViewModelSensorsData.loading())
                 .onErrorReturn(
-                        new Function<Throwable, ListViewModelSensorsData>() {
+                        new Function<Throwable, ViewModelSensorsData>() {
                             @Override
-                            public ListViewModelSensorsData apply(Throwable throwable) throws Exception {
-                                return ListViewModelSensorsData.error(throwable.getMessage());
+                            public ViewModelSensorsData apply(Throwable throwable) throws Exception {
+                                return ViewModelSensorsData.error(throwable.getMessage());
                             }
                         })
-                .subscribeWith(new DisposableSubscriber<ListViewModelSensorsData>() {
+                .subscribeWith(new DisposableSubscriber<ViewModelSensorsData>() {
                     @Override
-                    public void onNext(ListViewModelSensorsData uiListViewModelSensorsData) {
-                        if (uiListViewModelSensorsData.isHasError()) {
+                    public void onNext(ViewModelSensorsData uiViewModelSensorsData) {
+                        if (uiViewModelSensorsData.isHasError()) {
 
-                        } else if (uiListViewModelSensorsData.isLoading()) {
+                        } else if (uiViewModelSensorsData.isLoading()) {
 
                         } else {
-                            view.showSensorsData((ArrayList<SensorsDataDataModel>) uiListViewModelSensorsData.getSensorsDataDataModels());
+                            view.showSensorsData((ArrayList<SensorsDataDataModel>) uiViewModelSensorsData.getSensorsDataDataModel());
                         }
 
                     }

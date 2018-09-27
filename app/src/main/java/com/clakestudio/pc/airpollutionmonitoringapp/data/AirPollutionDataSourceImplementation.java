@@ -1,14 +1,11 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.data;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorsDataDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.StationDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.error.EmptyDatasetException;
 import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModelSensors;
-import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModelSensorsData;
+import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ViewModelSensorsData;
 import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModelStations;
 
 import org.reactivestreams.Publisher;
@@ -87,18 +84,16 @@ public class AirPollutionDataSourceImplementation implements AirPollutionDataSou
     }
 
     @Override
-    public Flowable<ListViewModelSensorsData> getSensorsData(String sensorId) {
+    public Flowable<ViewModelSensorsData> getSensorsData(String sensorId) {
         return
                 airPollutionRestAdapter.getSensorsData(sensorId)
-                        .flatMap(new Function<SensorsDataDataModel, Publisher<ListViewModelSensorsData>>() {
+                        .flatMap(new Function<SensorsDataDataModel, Publisher<ViewModelSensorsData>>() {
                             @Override
-                            public Publisher<ListViewModelSensorsData>
+                            public Publisher<ViewModelSensorsData>
                             apply(SensorsDataDataModel sensorsDataDataModelResponse) throws Exception {
                                 SensorsDataDataModel sensorsDataDataModel = new SensorsDataDataModel(sensorsDataDataModelResponse.getKey(), sensorsDataDataModelResponse.getValues());
-                                List<SensorsDataDataModel> sensorDataModels = new ArrayList<>();
-                                sensorDataModels.add(sensorsDataDataModel);
 
-                                return Flowable.just(ListViewModelSensorsData.success(sensorDataModels));
+                                return Flowable.just(ViewModelSensorsData.success(sensorsDataDataModel));
                             }
                         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
