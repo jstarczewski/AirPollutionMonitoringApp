@@ -85,7 +85,7 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
                                     } else {
                                         //
                                         //view.showSensorsList((ArrayList<SensorDataModel>) uiListViewModelSensors.getSensorDataModels());
-                                        loadSensorsData((ArrayList<SensorDataModel>) uiListViewModelSensors.getSensorDataModels());
+                                        loadSensorData((ArrayList<SensorDataModel>) uiListViewModelSensors.getSensorDataModels());
                                     }
                                 }
 
@@ -117,53 +117,56 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
     }
 
     @Override
-    public void loadSensorData(final SensorDataModel sensorDataModel) {
+    public void loadSensorData(final ArrayList<SensorDataModel> sensorDataModels) {
 
-        compositeDisposable.add(dataSourceInterface.getSensorsData(sensorDataModel.getStationId()).observeOn(baseSchedulerProvider.getUIScheduler())
-                .startWith(ViewModelSensorsData.loading())
-                .onErrorReturn(
-                        new Function<Throwable, ViewModelSensorsData>() {
-                            @Override
-                            public ViewModelSensorsData apply(Throwable throwable) throws Exception {
-                                return ViewModelSensorsData.error(throwable.getMessage());
+        for (final SensorDataModel sensorDataModel : sensorDataModels) {
+            compositeDisposable.add(dataSourceInterface.getSensorsData(sensorDataModel.getId()).observeOn(baseSchedulerProvider.getUIScheduler())
+                    .startWith(ViewModelSensorsData.loading())
+                    .onErrorReturn(
+                            new Function<Throwable, ViewModelSensorsData>() {
+                                @Override
+                                public ViewModelSensorsData apply(Throwable throwable) throws Exception {
+                                    return ViewModelSensorsData.error(throwable.getMessage());
+                                }
+                            })
+                    .subscribeWith(new DisposableSubscriber<ViewModelSensorsData>() {
+                        @Override
+                        public void onNext(ViewModelSensorsData uiViewModelSensorsData) {
+                            if (uiViewModelSensorsData.isHasError()) {
+
+                            } else if (uiViewModelSensorsData.isLoading()) {
+
+                            } else {
+                                sensorDataModel.setSensorsDataDataModel(uiViewModelSensorsData.getSensorsDataDataModel());
+                                view.showSensorsList(sensorDataModels);
+                                //sensorDataModel.setSensorsDataDataModel(uiViewModelSensorsData.getSensorsDataDataModel());
                             }
-                        })
-                .subscribeWith(new DisposableSubscriber<ViewModelSensorsData>() {
-                    @Override
-                    public void onNext(ViewModelSensorsData uiViewModelSensorsData) {
-                        if (uiViewModelSensorsData.isHasError()) {
 
-                        } else if (uiViewModelSensorsData.isLoading()) {
-
-                        } else {
-                            sensorDataModel.setSensorsDataDataModel(uiViewModelSensorsData.getSensorsDataDataModel());
                         }
 
-                    }
+                        @Override
+                        public void onError(Throwable t) {
 
-                    @Override
-                    public void onError(Throwable t) {
+                        }
 
-                    }
+                        @Override
+                        public void onComplete() {
 
-                    @Override
-                    public void onComplete() {
-
-                    }
-                })
-        );
-
+                        }
+                    })
+            );
+        }
 
     }
 
     @Override
     public void loadSensorsData(ArrayList<SensorDataModel> sensorDataModels) {
 
-        for (SensorDataModel sensorDataModel : sensorDataModels) {
-            loadSensorData(sensorDataModel);
-            Log.e("lista", sensorDataModel.getSensorsDataDataModel().getValues().toString());
-        }
-        view.showSensorsList(sensorDataModels);
+    //    for (SensorDataModel sensorDataModel : sensorDataModels) {
+      //      loadSensorData(sensorDataModel);
+        //    Log.e("lista", sensorDataModel.getSensorsDataDataModel().getValues().toString());
+        //}
+        //view.showSensorsList(sensorDataModels);
 
     }
 

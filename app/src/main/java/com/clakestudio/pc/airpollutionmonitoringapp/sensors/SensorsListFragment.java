@@ -215,7 +215,7 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
                 super(itemView);
 
                 tvSensorId = (TextView) itemView.findViewById(R.id.tvSensorName);
-                tvSensorValues = (TextView) itemView.findViewById(R.id.tvValues);
+                tvSensorValues = (TextView) itemView.findViewById(R.id.tvParamValues);
 
                 tvSensorId.setOnClickListener(this);
 
@@ -264,7 +264,8 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
              * */
             if (sensors.get(position).getSensorsDataDataModel() != null) {
                 Log.e("elo", "not null ->");
-                holder.tvSensorValues.setText(sensors.get(position).getSensorsDataDataModel().getValues().toString());
+                if (sensors.get(position).getSensorsDataDataModel().getValues() != null)
+                    holder.tvSensorValues.setText(sensors.get(position).getSensorsDataDataModel().getValues().toString());
             }
         }
 
