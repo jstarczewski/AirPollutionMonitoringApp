@@ -64,6 +64,17 @@ public class SensorDataModel {
         return this.param.getParamName();
     }
 
+
+    public SensorsDataDataModel getSensorsDataDataModel() {
+        return sensorsDataDataModel;
+    }
+
+    public void setSensorsDataDataModel(SensorsDataDataModel sensorsDataDataModel) {
+        this.sensorsDataDataModel = sensorsDataDataModel;
+    }
+
+    private SensorsDataDataModel sensorsDataDataModel;
+
     @Override
     public String toString() {
         return this.id + " " + " " + this.param.getParamName();

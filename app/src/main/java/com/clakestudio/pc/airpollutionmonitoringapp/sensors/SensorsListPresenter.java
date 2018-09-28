@@ -2,6 +2,7 @@ package com.clakestudio.pc.airpollutionmonitoringapp.sensors;
 
 import com.clakestudio.pc.airpollutionmonitoringapp.data.AirPollutionDataSourceInterface;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
+import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorsDataDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
 import com.clakestudio.pc.airpollutionmonitoringapp.utils.BaseSchedulerProvider;
 import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ListViewModelSensors;
@@ -27,6 +28,7 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
     private BaseSchedulerProvider baseSchedulerProvider;
     private CompositeDisposable compositeDisposable;
     private String stationId = "-1";
+    private ArrayList<SensorsDataDataModel> sensorDataModels;
 
     @Inject
     SensorsListPresenter(AirPollutionDataSourceInterface dataSourceInterface, BaseSchedulerProvider baseSchedulerProvider) {
@@ -79,7 +81,9 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
                                     } else if (uiListViewModelSensors.isLoading()) {
                                         // handle that
                                     } else {
-                                        view.showSensorsList((ArrayList<SensorDataModel>) uiListViewModelSensors.getSensorDataModels());
+                                        //
+                                        //view.showSensorsList((ArrayList<SensorDataModel>) uiListViewModelSensors.getSensorDataModels());
+                                        loadSensorsData((ArrayList<SensorDataModel>) uiListViewModelSensors.getSensorDataModels());
                                     }
                                 }
 
@@ -111,9 +115,9 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
     }
 
     @Override
-    public void loadSensorsData(String sensorId) {
+    public void loadSensorData(final SensorDataModel sensorDataModel) {
 
-            compositeDisposable.add(dataSourceInterface.getSensorsData(sensorId).observeOn(baseSchedulerProvider.getUIScheduler())
+        compositeDisposable.add(dataSourceInterface.getSensorsData(sensorDataModel.getStationId()).observeOn(baseSchedulerProvider.getUIScheduler())
                 .startWith(ViewModelSensorsData.loading())
                 .onErrorReturn(
                         new Function<Throwable, ViewModelSensorsData>() {
@@ -130,7 +134,9 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
                         } else if (uiViewModelSensorsData.isLoading()) {
 
                         } else {
-                            view.showSensorsData(uiViewModelSensorsData.getSensorsDataDataModel());
+                            sensorDataModel.setSensorsDataDataModel(uiViewModelSensorsData.getSensorsDataDataModel());
+                            //             view.showSensorsData(uiViewModelSensorsData.getSensorsDataDataModel());
+                            //     sensorDataModels = uiViewModelSensorsData.getSensorsDataDataModel();
                         }
 
                     }
@@ -147,6 +153,18 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
                 })
         );
 
+
+    }
+
+    @Override
+    public void loadSensorsData(ArrayList<SensorDataModel> sensorDataModels) {
+
+        for (SensorDataModel sensorDataModel : sensorDataModels) {
+
+            loadSensorData(sensorDataModel);
+
+        }
+        view.showSensorsList(sensorDataModels);
 
     }
 

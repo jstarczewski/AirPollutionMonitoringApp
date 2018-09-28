@@ -19,6 +19,7 @@ import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorsDataDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
 import com.clakestudio.pc.airpollutionmonitoringapp.sensorsdata.SensorsDataActivity;
+import com.clakestudio.pc.airpollutionmonitoringapp.utils.SensorsDataFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ import dagger.android.support.DaggerFragment;
  */
 
 @ActivityScoped
-public class SensorsListFragment extends DaggerFragment implements SensorsListContract.View, SensorClickListener{
+public class SensorsListFragment extends DaggerFragment implements SensorsListContract.View, SensorClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -117,6 +118,7 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
         if (getActivity().getIntent().getExtras() != null) {
             String stationId = getActivity().getIntent().getExtras().getString("stationId", "-1");
             presenter.setStationId(stationId);
+            //   presenter.loadSensorsList();
             presenter.loadSensorsList();
         } else {
             // temporary solution
@@ -196,8 +198,6 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
 
         List<SensorDataModel> sensors;
 
-        SensorsDataDataModel sensorsDataDataModel;
-
 
         SensorClickListener sensorClickListener;
 
@@ -228,15 +228,6 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
 
         private void setSensors(List<SensorDataModel> sensors) {
             this.sensors = sensors;
-        }
-
-        public void setSensorsDataDataModel(SensorsDataDataModel sensorsDataDataModel) {
-            this.sensorsDataDataModel = sensorsDataDataModel;
-        }
-
-        public void updateData(SensorsDataDataModel sensorsDataDataModel) {
-            setSensorsDataDataModel(sensorsDataDataModel);
-            notifyDataSetChanged();
         }
 
         public void updateData(List<SensorDataModel> sensorDataModels) {
@@ -270,9 +261,10 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
              * id.sensor = values.id etc
              *
              * */
-
-
-            holder.tvSensorValues.setText(sensorsDataDataModel.getValues().get(position).toString());
+            if (sensors.get(position).getSensorsDataDataModel() != null) {
+                SensorsDataDataModel sensorsDataDataModel = SensorsDataFormatter.format(sensors.get(position).getSensorsDataDataModel());
+                holder.tvSensorValues.setText(sensorsDataDataModel.getValues().toString());
+            }
         }
 
         @Override

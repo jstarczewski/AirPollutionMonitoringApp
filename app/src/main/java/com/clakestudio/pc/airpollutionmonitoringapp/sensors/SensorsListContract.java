@@ -21,7 +21,9 @@ public interface SensorsListContract {
 
         void setStationId(String stationId);
 
-        void loadSensorsData(String sensorId);
+        void loadSensorData(SensorDataModel sensorsDataModel);
+
+        void loadSensorsData(ArrayList<SensorDataModel> sensorDataModels);
 
     }
 
