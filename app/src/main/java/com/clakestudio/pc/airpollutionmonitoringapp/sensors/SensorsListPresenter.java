@@ -1,5 +1,7 @@
 package com.clakestudio.pc.airpollutionmonitoringapp.sensors;
 
+import android.util.Log;
+
 import com.clakestudio.pc.airpollutionmonitoringapp.data.AirPollutionDataSourceInterface;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorsDataDataModel;
@@ -28,7 +30,7 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
     private BaseSchedulerProvider baseSchedulerProvider;
     private CompositeDisposable compositeDisposable;
     private String stationId = "-1";
-    private ArrayList<SensorsDataDataModel> sensorDataModels;
+    private ArrayList<SensorDataModel> sensorDataModels;
 
     @Inject
     SensorsListPresenter(AirPollutionDataSourceInterface dataSourceInterface, BaseSchedulerProvider baseSchedulerProvider) {
@@ -135,8 +137,6 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
 
                         } else {
                             sensorDataModel.setSensorsDataDataModel(uiViewModelSensorsData.getSensorsDataDataModel());
-                            //             view.showSensorsData(uiViewModelSensorsData.getSensorsDataDataModel());
-                            //     sensorDataModels = uiViewModelSensorsData.getSensorsDataDataModel();
                         }
 
                     }
@@ -160,9 +160,8 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
     public void loadSensorsData(ArrayList<SensorDataModel> sensorDataModels) {
 
         for (SensorDataModel sensorDataModel : sensorDataModels) {
-
             loadSensorData(sensorDataModel);
-
+            Log.e("lista", sensorDataModel.getSensorsDataDataModel().getValues().toString());
         }
         view.showSensorsList(sensorDataModels);
 

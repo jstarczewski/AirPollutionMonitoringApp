@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -262,8 +263,8 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
              *
              * */
             if (sensors.get(position).getSensorsDataDataModel() != null) {
-                SensorsDataDataModel sensorsDataDataModel = SensorsDataFormatter.format(sensors.get(position).getSensorsDataDataModel());
-                holder.tvSensorValues.setText(sensorsDataDataModel.getValues().toString());
+                Log.e("elo", "not null ->");
+                holder.tvSensorValues.setText(sensors.get(position).getSensorsDataDataModel().getValues().toString());
             }
         }
 
