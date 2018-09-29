@@ -34,7 +34,7 @@ public class SensorsDataDataModel {
             this.value = value;
         }
 
-        public String getDate() {
+        public String getData() {
             return date;
         }
 
@@ -44,7 +44,7 @@ public class SensorsDataDataModel {
 
         @Override
         public String toString() {
-            return "By time "+getDate() + " the pollution was " + getValue() + "\n";
+            return "By time "+ getData() + " the pollution was " + getValue() + "\n";
         }
 
     }

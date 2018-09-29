@@ -17,6 +17,7 @@ import com.clakestudio.pc.airpollutionmonitoringapp.R;
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorsDataDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
 import com.clakestudio.pc.airpollutionmonitoringapp.sensors.SensorsListFragment;
+import com.clakestudio.pc.airpollutionmonitoringapp.utils.SensorsDataFormatter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -184,7 +185,14 @@ public class SensorsDataFragment extends dagger.android.support.DaggerFragment i
         @Override
         public void onBindViewHolder(SensorsDataAdapter.ViewHolder holder, int position) {
             holder.tvKey.setText(sensorsDataDataModelList.get(position).getKey());
-            holder.tvValues.setText(sensorsDataDataModelList.get(position).getValues().toString());
+
+            /**
+             *
+             * Here we should not format the data but I could not find better place.
+             *
+             * */
+
+            holder.tvValues.setText(SensorsDataFormatter.formatToString(sensorsDataDataModelList.get(position).getValues().toString()));
         }
 
         @Override

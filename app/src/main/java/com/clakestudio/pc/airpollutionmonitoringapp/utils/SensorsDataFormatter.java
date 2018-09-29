@@ -10,21 +10,27 @@ import java.util.ArrayList;
 
 public abstract class SensorsDataFormatter {
 
-    public static SensorsDataDataModel format(SensorsDataDataModel sensorsDataDataModelBeforeFormatting) {
+    public static SensorsDataDataModel formatNulls(SensorsDataDataModel sensorsDataDataModelBeforeFormatting) {
 
         ArrayList<SensorsDataDataModel.Value> values = new ArrayList<>();
-        SensorsDataDataModel sensorsDataDataModelAfterFormatting = new SensorsDataDataModel(sensorsDataDataModelBeforeFormatting.getKey(), values);
 
         for (SensorsDataDataModel.Value sensorsDataDataModelValue : sensorsDataDataModelBeforeFormatting.getValues()) {
-            if (sensorsDataDataModelValue.getValue()!=null && sensorsDataDataModelValue.getValue().equals("null")) {
-                values.add(new SensorsDataDataModel.Value(sensorsDataDataModelValue.getDate(), "not measured"));
+            if (sensorsDataDataModelValue.getValue()==null || sensorsDataDataModelValue.getValue().equals("null")) {
+                values.add(new SensorsDataDataModel.Value(sensorsDataDataModelValue.getData(), "not measured"));
             }
             else {
-                values.add(new SensorsDataDataModel.Value(sensorsDataDataModelValue.getDate(), sensorsDataDataModelValue.getValue()));
+                values.add(new SensorsDataDataModel.Value(sensorsDataDataModelValue.getData(), sensorsDataDataModelValue.getValue()));
             }
         }
-        return sensorsDataDataModelAfterFormatting;
-    }
 
+        return new SensorsDataDataModel(sensorsDataDataModelBeforeFormatting.getKey(), values);
+    }
+    public static String formatToString(String toStringBeforeFormatting) {
+
+        toStringBeforeFormatting =  toStringBeforeFormatting.replace(',', ' ');
+        toStringBeforeFormatting = toStringBeforeFormatting.substring(1, toStringBeforeFormatting.length()-1);
+        return toStringBeforeFormatting;
+
+    }
 
 }

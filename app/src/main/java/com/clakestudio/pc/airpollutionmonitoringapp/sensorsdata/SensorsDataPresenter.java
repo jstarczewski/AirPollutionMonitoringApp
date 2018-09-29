@@ -76,8 +76,7 @@ public class SensorsDataPresenter implements SensorsDataContract.Presenter {
 
                         } else {
                             ArrayList<SensorsDataDataModel> sensorsDataDataModels = new ArrayList<>();
-                            sensorsDataDataModels.add(uiViewModelSensorsData.getSensorsDataDataModel());
-                            sensorsDataDataModels.add(SensorsDataFormatter.format(uiViewModelSensorsData.getSensorsDataDataModel()));
+                            sensorsDataDataModels.add(SensorsDataFormatter.formatNulls(uiViewModelSensorsData.getSensorsDataDataModel()));
                             view.showSensorsData(sensorsDataDataModels);
                         }
 

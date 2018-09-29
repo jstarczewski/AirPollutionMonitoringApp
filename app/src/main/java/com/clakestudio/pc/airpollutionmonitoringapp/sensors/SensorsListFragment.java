@@ -171,11 +171,6 @@ public class SensorsListFragment extends DaggerFragment implements SensorsListCo
     }
 
     @Override
-    public void showSensorsData(SensorsDataDataModel sensorsDataDataModel) {
-        //correct implementation needed
-    }
-
-    @Override
     public void onSensorClicked(String sensorId) {
         presenter.startSensorsDataActivity(sensorId);
     }
