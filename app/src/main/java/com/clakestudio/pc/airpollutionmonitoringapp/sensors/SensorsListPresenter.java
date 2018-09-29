@@ -83,9 +83,9 @@ public class SensorsListPresenter implements SensorsListContract.Presenter {
                                     } else if (uiListViewModelSensors.isLoading()) {
                                         // handle that
                                     } else {
-                                        //
-                                        //view.showSensorsList((ArrayList<SensorDataModel>) uiListViewModelSensors.getSensorDataModels());
-                                        loadSensorData((ArrayList<SensorDataModel>) uiListViewModelSensors.getSensorDataModels());
+                                        view.showSensorsList((ArrayList<SensorDataModel>) uiListViewModelSensors.getSensorDataModels());
+                                        //loadSensorData((ArrayList<SensorDataModel>) uiListViewModelSensors.getSensorDataModels());
+
                                     }
                                 }
 

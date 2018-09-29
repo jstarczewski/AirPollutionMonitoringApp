@@ -4,6 +4,7 @@ import com.clakestudio.pc.airpollutionmonitoringapp.data.AirPollutionDataSourceI
 import com.clakestudio.pc.airpollutionmonitoringapp.datamodels.SensorsDataDataModel;
 import com.clakestudio.pc.airpollutionmonitoringapp.di.ActivityScoped;
 import com.clakestudio.pc.airpollutionmonitoringapp.utils.BaseSchedulerProvider;
+import com.clakestudio.pc.airpollutionmonitoringapp.utils.SensorsDataFormatter;
 import com.clakestudio.pc.airpollutionmonitoringapp.viewmodels.ViewModelSensorsData;
 
 import java.util.ArrayList;
@@ -74,7 +75,10 @@ public class SensorsDataPresenter implements SensorsDataContract.Presenter {
                         } else if (uiViewModelSensorsData.isLoading()) {
 
                         } else {
-                      //      view.showSensorsData((ArrayList<SensorsDataDataModel>) uiViewModelSensorsData.getSensorsDataDataModel());
+                            ArrayList<SensorsDataDataModel> sensorsDataDataModels = new ArrayList<>();
+                            sensorsDataDataModels.add(uiViewModelSensorsData.getSensorsDataDataModel());
+                            sensorsDataDataModels.add(SensorsDataFormatter.format(uiViewModelSensorsData.getSensorsDataDataModel()));
+                            view.showSensorsData(sensorsDataDataModels);
                         }
 
                     }

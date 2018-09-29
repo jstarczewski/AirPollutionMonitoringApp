@@ -16,7 +16,7 @@ public abstract class SensorsDataFormatter {
         SensorsDataDataModel sensorsDataDataModelAfterFormatting = new SensorsDataDataModel(sensorsDataDataModelBeforeFormatting.getKey(), values);
 
         for (SensorsDataDataModel.Value sensorsDataDataModelValue : sensorsDataDataModelBeforeFormatting.getValues()) {
-            if (sensorsDataDataModelValue.getValue().equals("null")) {
+            if (sensorsDataDataModelValue.getValue()!=null && sensorsDataDataModelValue.getValue().equals("null")) {
                 values.add(new SensorsDataDataModel.Value(sensorsDataDataModelValue.getDate(), "not measured"));
             }
             else {
